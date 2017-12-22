@@ -1,5 +1,6 @@
 #pragma once
 #include "Test.h"
+#include "Vector2D.h"
 template <typename T>
 struct Vertex2D
 {
@@ -26,10 +27,31 @@ public:
 		R.y = y/val;
 		return R;
 	}
-	const T length(const Vertex2D<T> &point)
+	const T length(const Vertex2D<T> &point) const
 	{
 		auto R = sqrtf(powf((x - point.x), 2) + powf((y - point.y), 2));
 		return R;
+	}
+	
+
+	Vertex2D<T> operator + (const Vector2D<T> &vec) const
+	{
+		Vertex2D<T> ans;
+		ans.x = x + vec.x;
+		ans.y = y + vec.y;
+		return ans;
+	}
+	
+	Vertex2D<T> operator + (const Vertex2D<T> &vertex) const
+	{
+		Vertex2D<T> ans;
+		ans.x = x + vertex.x;
+		ans.y = y + vertex.y;
+		return ans;
+	}
+	Vertex2D<T> operator * (const T &val) const
+	{
+		return Vertex2D(x*val, y*val);
 	}
 };
 

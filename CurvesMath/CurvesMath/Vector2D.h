@@ -9,20 +9,34 @@ public:
 	Vector2D() :x(0), y(0) {}
 	~Vector2D() {}
 	Vector2D(const T &_x, const T &_y) : x(_x), y(_y) {}
+	Vector2D(const T &_angle) { x = cosf(_angle); y = sinf(_angle); }
 //	Vector2D(T _x, T _y) : x(_x), y(_y) {}
 	const float64 length() const
 	{
 		return sqrt(pow(x,2) + pow(y,2));
 	}
-	const void normalize()
+	const Vector2D<T> normalize()
 	{
 		auto l = length();
 		x /= l;
 		y /= l;
+		return *this;
 	}
-	const T operator dot(const Vector2D<T> _vec)
+	const Vector2D<T> normal2vector(const Vector2D<T> _vec, bool isUp)
+	{
+		if (isUp) { x = -_vec.y; y = _vec.x; }
+		else { x = _vec.y; y = -_vec.x; }
+		return *this;
+	}
+	const T dot(const Vector2D<T> _vec)
 	{
 		return (x*_vec.x + y*_vec.y);
+	}
+	Vector2D<T> reverse() 
+	{
+		x *= -1;
+		y *= -1;
+		return (*this);
 	}
 	Vector2D<T> operator = (const Vector2D<T> _v)
 	{

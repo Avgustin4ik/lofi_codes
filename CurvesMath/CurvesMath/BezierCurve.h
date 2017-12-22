@@ -11,20 +11,7 @@ template <typename T>
 class BezierCurve
 {
 protected:
-	vector<T> bernstein_data;
-	float32 fact(const float value) {	//вычисление факториала числа типа float
-		float ans = value;
-		if (value == 0) { ans = 1; return ans; }
-
-		if (value < 0)
-			return 0;
-		if (value > 0)
-		{
-			for (int i = 2; i < value; i++)
-				ans *= i;
-			return ans;
-		}
-	}
+	
 	float32 Bernstein(const uint m,const uint i)	//вычисление коэффициентов Бернштейна
 	{
 		float ans = float(fact(m)) / float(fact(m - i)) / float(fact(i));
@@ -59,6 +46,20 @@ public:
 	{
 		compute();
 	}
+	vector<T> bernstein_data;
+	float32 fact(const float value) {	//вычисление факториала числа типа float
+		float ans = value;
+		if (value == 0) { ans = 1; return ans; }
+
+		if (value < 0)
+			return 0;
+		if (value > 0)
+		{
+			for (int i = 2; i < value; i++)
+				ans *= i;
+			return ans;
+		}
+	}
 	void compute() {
 		bernstein_data.clear();
 			for (size_t i = 0; i < PPoints.size(); i++)
@@ -76,8 +77,9 @@ public:
 		Vertex2D<T> R(0, 0);
 		for (size_t i = 0; i < PPoints.size(); i++)
 		{
-			R.x += bernstein_data[i] * (powf(t, i)*powf(1 - t, m - i))*PPoints[i].x;
-			R.y += bernstein_data[i] * (powf(t, i)*powf(1 - t, m - i)) * PPoints[i].y;
+			R = R + PPoints[i] * bernstein_data[i] * (powf(t, i)*powf(1 - t, m - i));
+//			R.x += bernstein_data[i] * (powf(t, i)*powf(1 - t, m - i))*PPoints[i].x;
+//			R.y += bernstein_data[i] * (powf(t, i)*powf(1 - t, m - i)) * PPoints[i].y;
 //			R.x += Bernstein(m, i, t)*PPoints[i].x;
 //			R.y += Bernstein(m, i, t)*PPoints[i].y;
 		}
@@ -96,27 +98,27 @@ public:
 		}
 		return R;
 	}
-	const Vertex2D<T> dt(const float32 t)
+	const Vector2D<T> dt(const float32 t)
 	{
 		if ((t < 0) || (t > 1))	throw(exception());
-		Vertex2D<T> ans;
+		Vector2D<T> ans;
 		for (size_t i = 0; i < PPoints.size() - 1; i++)
 		{
 			ans.x += m*Bernstein(m - 1, i)*(powf(t, i)*powf(1 - t, m - 1 - i))*(PPoints[i + 1].x - PPoints[i].x);
 			ans.y += m*Bernstein(m - 1, i)*(powf(t, i)*powf(1 - t, m - 1 - i))*(PPoints[i + 1].y - PPoints[i].y);
 		}
-		return ans;
+		return ans.normalize();
 	}
-	const Vertex2D<T> ddt(const float32 t)
+	const Vector2D<T> ddt(const float32 t)
 	{
 		if ((t < 0) || (t > 1))	throw(exception());
-		Vertex2D<T> ans;
+		Vector2D<T> ans;
 		for (size_t i = 0; i < PPoints.size() - 2; i++)
 		{
 			ans.x += m*(m - 1)*Bernstein(m - 2, i)*(powf(t, i)*powf(1 - t, m - 2 - i))*(PPoints[i + 2].x - 2 * PPoints[i + 1].x + PPoints[i].x);
 			ans.y += m*(m - 1)*Bernstein(m - 2, i)*(powf(t, i)*powf(1 - t, m - 2 - i))*(PPoints[i + 2].y - 2 * PPoints[i + 1].y + PPoints[i].y);
 		}
-		return ans;
+		return ans.normalize();
 	}
 	void increase()
 	{
@@ -134,22 +136,15 @@ public:
 		PPoints.swap(newPPoints);
 		compute();
 	}
-	const float32 find_nearest(const Vertex2D<T> point)
+	const T find_nearest(const Vertex2D<T>& point)
 	{
-		auto t0 = 0.5f;
-		auto p = getPoint(t0);
-		auto df = 2*(getPoint(t0).x - point.x)*dt(t0).x + 2*(getPoint(t0).y - point.y)*dt(t0).y;
-		auto ddf = 2 * (dt(t0).x * dt(t0).x + (getPoint(t0).x - point.x)*ddt(t0).x) + (dt(t0).y * dt(t0).y + (getPoint(t0).y - point.y)*ddt(t0).y);
-		auto t1 = t0 - df / ddf;
-		int i = 0;
-		while (fabsf(t1 - t0)>EPS) {
-			t0 = t1;
-			df = 2 * (getPoint(t0).x - point.x)*dt(t0).x + 2 * (getPoint(t0).y - point.y)*dt(t0).y;
-			ddf = 2 * (dt(t0).x * dt(t0).x + (getPoint(t0).x - point.x)*ddt(t0).x) + (dt(t0).y * dt(t0).y + (getPoint(t0).y - point.y)*ddt(t0).y);
-			t1 = t0 - df / ddf;
-			i++;
-		}
-		return t1;
+		function_bezier2point<float32> f(*this,point);
+		vector<T> variables;
+		T t = 0.5;
+		variables.push_back(t);
+		newton_minimization_simple(f, variables, LEFT_BORDER, RIGHT_BORDER);
+		t = variables.at(0);
+		return (t);
 	}
 	const Vertex2D<T> operator () (const float32 t) const
 	{
@@ -169,4 +164,30 @@ public:
 		auto ans = (dt(t).x*ddt(t).y - dt(t).y*ddt(t).x) / powf((powf(dt(t).x, float(2)) + powf(dt(t).y, float(2))), float(3) / float(2));
 		return ans;
 	}
+	BezierCurve<T> shift_curve(const bool isSuctionSide, const Vertex2D<T> _p0, const Vertex2D<T> _pn, const vector<T> _t_arr, const vector<T> _gamma, T _angle1, T _angle2, T _alpha1, T _alpha2)
+	{
+		vector<Vertex2D<T>> newPoints;
+		newPoints.push_back(_p0);
+		Vector2D<float32> vtemp_1(_angle1);
+		Vector2D<float32> vtemp_n(_angle2);
+		Vertex2D<float32> p1;
+		p1 = newPoints[0] + vtemp_1*_alpha1;
+		Vertex2D<float32> pn_1 = _pn + vtemp_n*_alpha2;
+		newPoints.push_back(p1);
+		for (size_t i = 0; i < _t_arr.size(); i++)
+		{
+			Vertex2D<float32> ptemp;
+			ptemp =  getPoint(_t_arr[i]);
+			Vector2D<float32> vtemp;
+			vtemp.normal2vector(dt(_t_arr[i]),isSuctionSide);
+			vtemp.normalize();
+			vtemp = vtemp * _gamma[i];
+			ptemp = ptemp + vtemp;
+			newPoints.push_back(ptemp);
+		}
+		newPoints.push_back(pn_1);
+		newPoints.push_back(_pn);
+		return BezierCurve<T>(newPoints);
+	}
+	
 };
