@@ -135,6 +135,26 @@ private:
 	derivarive<F, T> fp;
 };
 
+template <typename F,typename T>
+//Упрощенное нахождение второй производной функции одной переменной
+class second_derivative_simple
+{
+public:
+	second_derivative_simple(F& f, const T& h) :h(h), f(f) {}
+	~second_derivative_simple() {};
+	T operator () (vector<T>& var_arr, size_t i, size_t di)
+	{
+		vector<T> delta_plus(var_arr);
+		vector<T> delta_minus(var_arr);
+		delta_plus[di] = delta_plus[di] + h;
+		delta_minus[di] = delta_minus[di] - h;
+		return (f(delta_plus) - 2 * f(var_arr) + f(delta_minus)) / (h*h);
+	}
+private:
+	T h;
+	F& f;
+}; 
+
 template <typename T>
 
 class function
@@ -179,7 +199,7 @@ void slau(double values[2][3], double& x1, double& x2)
 template<typename T>
 void newton_minimization(objective_function<T>& f,vector<T>& variables )
 {
-	float32 h = 0.001;
+	float32 h = 0.0001;
 	using d_f = derivarive<objective_function<float32>, float32>;
 	using dd_f = second_derivative<objective_function<float32>, float32>;
 	d_f dF(f, h);
@@ -193,7 +213,7 @@ void newton_minimization(objective_function<T>& f,vector<T>& variables )
 	variables_old.push_back(1.0);
 	T& x1_old = variables_old[0];
 	T& x2_old = variables_old[1];
-	while (fabsf(f(variables) - f(variables_old)) > 1e-3)
+	while (fabsf(f(variables) - f(variables_old)) > 1e-2)
 	{
 		x1_old = x1;
 		x2_old = x2;
@@ -237,15 +257,19 @@ private:
 template <typename F, typename T>
 void newton_minimization_simple(F& f, vector<T> &variables, const T left_border, const T right_border)
 {
-	float32 h(0.0001);
+	float32 h(0.01);
 	using d_f = derivarive<F, T>;
 	using dd_f = second_derivative<F, T>;
+	using dd_fs = second_derivative_simple<F, T>;
 	d_f df(f, h);
 	dd_f ddf(f, h);
+	dd_fs ddfs(f, h);
 	vector<T> new_variables;
 	new_variables.push_back(0);
 	T& x1 = variables[0];
 	T& x1n = new_variables[0];
+	auto z1 = df(variables, 0);
+	auto z2 = ddf(variables, 0, 0);
 	x1n = x1 - df(variables, 0) / ddf(variables, 0, 0);
 	while (fabsf(f(new_variables) - f(variables)) > EPS)
 	{
