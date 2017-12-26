@@ -280,3 +280,23 @@ void newton_minimization_simple(F& f, vector<T> &variables, const T left_border,
 	}
 	variables[0] = x1n;
 }
+template <typename F, typename T>
+void method_bisection(F& f, vector<T> &variables, const T left_border, const T right_border)
+{
+	using d_f = derivarive<F, T>;
+	T h = 0.001;
+	d_f df(f, h);
+	T& x = variables[0];
+	T L = left_border;
+	T R = right_border;
+	auto old_value = f(variables) + 10*h;
+	x = float(L + R) / float(2);
+	auto new_value = f(variables);
+	while (fabsf(new_value - old_value) > (1e-3));
+	{
+		old_value = f(variables);
+		if (df(variables, 0))	R = x;	else	L = x;	
+		x = float(L + R) / float(2);
+		new_value = f(variables);
+	}
+}

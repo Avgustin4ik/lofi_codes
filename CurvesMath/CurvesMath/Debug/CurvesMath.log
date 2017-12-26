@@ -1,50 +1,40 @@
 ﻿  CurvesMath.cpp
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(62): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(64): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(67): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(69): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(72): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(74): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(83): warning C4305: аргумент: усечение из "double" в "const float32"
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\vector2d.h(20): warning C4244: /=: преобразование "float64" в "float32", возможна потеря данных
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\vector2d.h(18): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(91): note: выполняется компиляция ссылки на экземпляр шаблон функции "const void Vector2D<float32>::normalize(void)"
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(88): note: выполняется компиляция ссылки на экземпляр шаблон класс "Vector2D<float32>"
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\vector2d.h(21): warning C4244: /=: преобразование "float64" в "float32", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(116): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(111): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(39): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vertex2D<float32> BezierCurve<float32>::ddt(const float32)"
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(20): note: выполняется компиляция ссылки на экземпляр шаблон класс "BezierCurve<float32>"
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(116): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(117): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(117): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(105): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(100): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(36): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vertex2D<float32> BezierCurve<float32>::dt(const float32)"
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(105): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(106): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(106): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(92): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(87): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(35): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vertex2D<float32> BezierCurve<float32>::operator [](const float32)"
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(92): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(93): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(93): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(79): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(74): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\curvesmath.cpp(33): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vertex2D<float32> BezierCurve<float32>::getPoint(const float32)"
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(79): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(80): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(80): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(160): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(155): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\mymath.h(48): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vertex2D<float32> BezierCurve<float32>::operator ()(const float32) const"
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(160): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(161): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(161): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(30): warning C4244: аргумент: преобразование "const uint" в "const float", возможна потеря данных
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(29): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(116): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 BezierCurve<float32>::Bernstein(const uint,const uint)"
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(30): warning C4244: аргумент: преобразование "uint" в "const float", возможна потеря данных
-c:\users\alexeevra\source\repos\curvesmath\curvesmath\beziercurve.h(27): warning C4715: BezierCurve<float>::fact: значение возвращается не при всех путях выполнения
-  CurvesMath.vcxproj -> C:\Users\AlexeevRA\source\repos\CurvesMath\Debug\CurvesMath.exe
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(28): warning C4305: аргумент: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(80): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(75): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(32): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vertex2D<float32> BezierCurve<float32>::getPoint(const float32)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(23): note: выполняется компиляция ссылки на экземпляр шаблон класс "BezierCurve<float32>"
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(80): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(17): warning C4244: аргумент: преобразование "const uint" в "const float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(16): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(67): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 BezierCurve<float32>::Bernstein(const uint,const uint)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(17): warning C4244: аргумент: преобразование "uint" в "const float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(287): warning C4305: инициализация: усечение из "double" в "float32"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(50): note: выполняется компиляция ссылки на экземпляр шаблон функции "void method_bisection<temp_function<float32>,float32>(F &,std::vector<T,std::allocator<_Ty>> &,const T,const T)"
+          with
+          [
+              F=temp_function<float32>,
+              T=float32,
+              _Ty=float32
+          ]
+d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(260): warning C4305: инициализация: усечение из "double" в "float32"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(145): note: выполняется компиляция ссылки на экземпляр шаблон функции "void newton_minimization_simple<function_bezier2point<float32>,T>(F &,std::vector<T,std::allocator<_Ty>> &,const T,const T)"
+          with
+          [
+              T=float32,
+              F=function_bezier2point<float32>,
+              _Ty=float32
+          ]
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(140): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(42): note: выполняется компиляция ссылки на экземпляр шаблон функции "const float32 BezierCurve<float32>::find_nearest(const Vertex2D<float32> &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(185): warning C4305: инициализация: усечение из "double" в "float32"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(183): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(292): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 temp_function<float32>::operator ()(const std::vector<T,std::allocator<_Ty>>) const"
+          with
+          [
+              T=float32,
+              _Ty=float32
+          ]
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(47): note: выполняется компиляция ссылки на экземпляр шаблон класс "temp_function<float32>"
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(62): warning C4715: BezierCurve<float>::fact: значение возвращается не при всех путях выполнения
+  CurvesMath.vcxproj -> D:\Work Roman\lofi_codes\CurvesMath\Debug\CurvesMath.exe

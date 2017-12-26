@@ -81,9 +81,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\libs;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\Scripts;C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\libs;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\Scripts;C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,7 +133,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <AdditionalDependencies>python36.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -147,10 +152,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\libs\python36.lib;C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\python36.dll;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BezierCurve.h" />
+    <ClInclude Include="matplotlibcpp.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
