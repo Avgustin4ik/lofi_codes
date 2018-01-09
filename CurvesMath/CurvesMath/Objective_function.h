@@ -18,15 +18,17 @@ public:
 		if ((t < 0) || (t > 1))	throw(exception());
 		Vertex2D<T> R(0, 0);
 		Vector2D<T> temp = curve.dt(0);
+		if (temp.y < 0 | temp.x < 0)	temp.reverse();
 		Vertex2D<T>& P1 = curve.PPoints[1];
 		Vertex2D<T>& P2 = curve.PPoints[2];
 		P1 = curve.PPoints[0] + temp*x1;
-		Vector2D<T> a = curve.dt(1);//вот тут вопросы!!!!!!!
-		temp = a.reverse();
+		temp = curve.dt(1);//вот тут вопросы!!!!!!!
+		if (temp.x > 0 | temp.y < 0)	temp.reverse();
 		P2 = curve.PPoints[3] + temp*x2;
+		auto tn = curve.find_nearest(point);
 		for (size_t i = 0; i < curve.PPoints.size(); i++)
 		{
-			R = R + curve.PPoints[i] * curve.bernstein_data[i] * (powf(t, i)*powf(1 - t, curve.m - i));
+			R = R + curve.PPoints[i] * curve.bernstein_data[i] * (powf(tn, i)*powf(1 - tn, curve.m - i));
 		}
 		return R;
 	}

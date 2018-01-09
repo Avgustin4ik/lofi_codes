@@ -32,11 +32,10 @@ public:
 	{
 		return (x*_vec.x + y*_vec.y);
 	}
-	Vector2D<T> reverse() 
+	void reverse() 
 	{
-		x *= -1;
-		y *= -1;
-		return (*this);
+		this->x = this->x * -1;
+		this->y = this->y * -1;
 	}
 	Vector2D<T> operator = (const Vector2D<T> _v)
 	{

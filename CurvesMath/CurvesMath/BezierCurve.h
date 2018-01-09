@@ -142,7 +142,8 @@ public:
 		vector<T> variables;
 		T t = 0.5;
 		variables.push_back(t);
-		newton_minimization_simple(f, variables, LEFT_BORDER, RIGHT_BORDER);
+		method_bisection(f, variables, LEFT_BORDER, RIGHT_BORDER);
+//		newton_minimization_simple(f, variables, LEFT_BORDER, RIGHT_BORDER);
 		t = variables.at(0);
 		return (t);
 	}
