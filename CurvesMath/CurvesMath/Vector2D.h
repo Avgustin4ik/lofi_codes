@@ -1,5 +1,5 @@
 #pragma once
-#include "Test.h"
+#include "Setups.h"
 template <typename T>
 
 struct Vector2D
@@ -37,6 +37,8 @@ public:
 		this->x = this->x * -1;
 		this->y = this->y * -1;
 	}
+	bool isHorizontal() { if (y = 0) return true };//Без погрешности
+	bool isVertical() { if (x = 0) return true };//Без погрешности
 	Vector2D<T> operator = (const Vector2D<T> _v)
 	{
 		x = _v.x;

@@ -1,73 +1,15 @@
 #pragma once
-#include <Windows.h>
 #include "Objective_function.h"
 #ifndef _DEBUG
 #include "matplotlibcpp.h"
 namespace plt = matplotlibcpp;
 #endif
 
-template <typename F,typename T>
-
-class derivative_r //(f(x + h) - f(x)) / h
-{
-public:
-	derivative_r(const F& f, const T& h) :f(f), h(h) {}
-	Vertex2D<T> operator () (const T& x)
-	{
-		return (f(x + h) - f(x)) / h;
-	}
-	const Vertex2D<T> operator () (const T& x) const
-	{
-		return (f(x + h) - f(x)) / h;
-	}
-private:
-	const F& f;
-	T h;
-};
-
-template <typename F, typename T>
-
-class derivative_l //(f(x) - f(x - h)) / h
-{
-public:
-	derivative_l(const F& f, const T& h) :f(f), h(h) {}
-	Vertex2D<T> operator () (const T& x)
-	{
-		return (f(x) - f(x - h)) / h;
-	}
-	const Vertex2D<T> operator () (const T& x) const
-	{
-		return (f(x) - f(x - h)) / h;
-	}
-private:
-	const F& f;
-	T h;
-};
-
-template <typename F, typename T>
-
-class derivarive_2p //производная по двум точкам (слева и права) (f(x + h) - f(x - h)) / (2 * h)
-{
-public:
-	derivarive_2p(const F& f, const T& h) :f(f), h(h) {}
-	Vector2D<T> operator () (const T& x)
-	{
-		return (f(x + h) - f(x - h)) / (float(2) * h);
-	}
-	const Vector2D<T> operator () (const T& x) const
-	{
-		return (f(x + h) - f(x - h)) / (float(2) * h);
-	}
-private:
-	const F& f;
-	T h;
-};
-
 template<typename F, typename T>
 class derivarive //производная по двум точкам (слева и права) (f(x + h) - f(x - h)) / (2 * h)
 {
 public:
-	derivarive(const F& f, const T& h) :f(f), h(h) {}
+	derivarive(F& f, const T& h) :f(f), h(h) {}
 	T operator () (vector<T>& var_arr, size_t i)
 	{
 
@@ -92,7 +34,7 @@ public:
 		return ((f(delta_plus) - f(var_arr))) / h;
 	}
 private:
-	const F& f;
+	F& f;
 	T h;
 };
 template <typename F,typename T>
@@ -167,104 +109,172 @@ public:
 	{
 		T x1(var_arr[0]);
 		float32 e = 2.71828;
-		return (powf(x1,3) - x1 + powf(e,-x1));
+		return (x1*x1*5+x1*3);
 	}
 private:
 };
 
-void slau(double values[2][3], double& x1, double& x2)
+template <typename T>
+
+void slau(T values[2][3], T& x1, T& x2)
 {
-	double delta = values[0][0] * values[1][1] - values[1][0] * values[0][1];
-	double delta_x1 = values[1][1] * values[0][2] - values[0][1] * values[1][2];
-	double delta_x2 = values[0][0] * values[1][2] - values[1][0] * values[0][2];
+	T delta = values[0][0] * values[1][1] - values[1][0] * values[0][1];
+	T delta_x1 = values[1][1] * values[0][2] - values[0][1] * values[1][2];
+	T delta_x2 = values[0][0] * values[1][2] - values[1][0] * values[0][2];
 	x1 = delta_x1 / delta;
 	x2 = delta_x2 / delta;
 }
-template<typename F, typename T>
-void newton_minimization(F& f,vector<T>& variables )
-{
-	float32 h = 0.001;
-	using d_f = derivarive<F, T>;
-	using dd_f = second_derivative<F, T>;
-	d_f dF(f, h);
-	dd_f ddF(f, h);
-	uint iterator = 0;
-	float32& t = f.t;
-	T& x1 = variables[0];
-	T& x2 = variables[1];
-	vector<T> var_new(2);
-	T& x1n = var_new[0];
-	T& x2n = var_new[1];
-	t = f.curve.find_nearest(f.point);
-	float32 alpha = 0.01;
-	iterator++;
-	auto g1 = dF(variables, 0);
-	auto g2 = dF(variables, 1);
-	auto G1 = ddF(variables, 0, 0);
-	auto G2 = ddF(variables, 0, 1);
-	auto G3 = ddF(variables, 1, 0);
-	auto G4 = ddF(variables, 1, 1);
-/*	auto g1 = 2 * x1 + 20 * (sinf(x1) - x2)*cosf(x1);
-	auto g2 = 20 * (x2 - sinf(x1));
-	auto G1 = 2 + 20 * (cosf(2 * x1) + x2*sinf(x1));
-	auto G2 = -20 * cosf(x1);
-	auto G3 = -20 * cosf(x1);
-	auto G4 = 20;*/
-	float64 p1, p2;
 
-	float64 values[2][3] = {
+template<typename F, typename T>
+
+void newton_minimization(F& f,vector<T>& variables, Configuration _config )
+{
+	vector<T> npx, npy;
+	vector<float32>  x;
+	vector<float32>  y;
+	x.push_back(f.point.x);
+	y.push_back(f.point.y);
+	T h = _config.h;
+	float32 alpha = _config.alpha;
+	bool isSolutionNotReached = false;
+	derivarive<F, T> df(f,h);
+	second_derivative<F, T> ddf(f, h);
+	vector<T> variables_new(2);
+	T &x1 = variables[0];
+	T &x2 = variables[1];
+	T &x1n = variables_new[0];
+	T &x2n = variables_new[1];
+	T p1, p2;
+	T g1, g2, G1, G2, G3, G4;
+	vector<float32> Pnx, Pny, Bnx, Bny;//для отображения
+//	vector<T> x, y;	x.push_back(f.point.x);	y.push_back(f.point.y);
+#ifndef _DEBUG
+	plt::clf();
+	for (auto i = 0; i < 101; i++) {
+		auto z = float(i) / float(100);
+		Bnx.push_back(f.curve.getPoint(z).x);
+		Bny.push_back(f.curve.getPoint(z).y);
+	}
+	for (auto &i : f.curve.PPoints) {
+		Pnx.push_back(i.x);
+		Pny.push_back(i.y);
+	}
+	plt::grid(true);
+	plt::axis("equal");
+	plt::plot(x, y, "D");
+	plt::plot(Pnx, Pny, "x--r");
+	plt::plot(Bnx, Bny);
+	plt::pause(0.5);
+#endif
+	f.recompute(x1, x2);
+	auto f_v = f(variables);
+	g1 = df(variables, 0);
+	g2 = df(variables, 1);
+	G1 = ddf(variables, 0, 0);
+	G2 = ddf(variables, 0, 1);
+	G3 = ddf(variables, 1, 0);
+	G4 = ddf(variables, 1, 1);
+	T values[2][3] = {
 		{ G1, G3, -g1 },
 		{ G2, G4, -g2 }
 	};
-	slau(values, p1, p2);
-	x1n = x1 + alpha * p1;
-	x2n = x2 + alpha * p2;
-	vector<T> residual; 
-	vector<T> fv, fvn;
-	fv.push_back(f(variables));
-	fvn.push_back(f(var_new));
-	vector<T> xAxsys;
-	while (fabsf(f(var_new) - f(variables)) > 1e-6)
+	slau<T>(values, p1, p2);
+	x1n = x1 + alpha*p1;
+	x2n = x2 + alpha*p2;
+	auto f_vn = f(variables_new);
+	f.recompute(x1, x2);
+	auto i = 1;
+	Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear();
+#ifndef _DEBUG
+	plt::clf();
+	for (auto i = 0; i < 101; i++) {
+		auto z = float(i) / float(100);
+		Bnx.push_back(f.curve.getPoint(z).x);
+		Bny.push_back(f.curve.getPoint(z).y);
+	}
+	for (auto &i : f.curve.PPoints) {
+		Pnx.push_back(i.x);
+		Pny.push_back(i.y);
+	}
+	plt::grid(true);
+	plt::axis("equal");
+	plt::plot(x, y, "D");
+	plt::plot(Pnx, Pny, "x--r");
+	plt::plot(Bnx, Bny);
+	plt::pause(0.5);
+#endif
+	vector<T> xx, yy;
+	while (fabs(f(variables_new)) > 1e-3)
 	{
-		x1 = x1n;
-		x2 = x2n;
-		if ((iterator == 20)) alpha *= 10;
-		t = f.curve.find_nearest(f.point);
-		iterator++;
-		g1 = dF(variables, 0);
-		g2 = dF(variables, 1);
-		G1 = ddF(variables, 0, 0);
-		G2 = ddF(variables, 0, 1);
-		G3 = ddF(variables, 1, 0);
-		G4 = ddF(variables, 1, 1);
-/*		g1 = 2 * x1 + 20 * (sinf(x1) - x2)*cosf(x1);
-		g2 = 20 * (x2 - sinf(x1));
-		G1 = 2 + 20 * (cosf(2 * x1) + x2*sinf(x1));
-		G2 = -20 * cosf(x1);
-		G3 = -20 * cosf(x1);
-		G4 = 20;*/
-		float64 values1[2][3] = {
+		//********************************
+		Vector2D<T> v = f.curve.dt(0);
+		Vertex2D<T> P1 = f.curve.PPoints[0] + v * x1n;
+		v = f.curve.dt(1);
+		v.reverse();
+		Vertex2D<T> P2 = f.curve.PPoints[3] + v * x2n;
+		//********************************
+		i++;
+		if (i == _config.iterations_limit) { isSolutionNotReached = true; break; }
+		if (P1.x > P2.x) { isSolutionNotReached = true; break; }
+		x1 = x1n;	x2 = x2n;
+		g1 = df(variables, 0);
+		g2 = df(variables, 1);
+		G1 = ddf(variables, 0, 0);
+		G2 = ddf(variables, 0, 1);
+		G3 = ddf(variables, 1, 0);
+		G4 = ddf(variables, 1, 1);
+		T values[2][3] = {
 			{ G1, G3, -g1 },
 			{ G2, G4, -g2 }
 		};
-		slau(values1, p1, p2);
-		if (x1 < 0) p1 *= -1;
-		if (x2 < 0) p2 *= -1;
-		x1n = x1 + alpha * p1;
-		x2n = x2 + alpha * p2;
-		residual.push_back(fabsf(f(var_new) - f(variables)));
-		xAxsys.push_back(iterator);
-		fv.push_back(f(variables));
-		fvn.push_back(f(var_new));
+		slau<T>(values, p1, p2);
+		x1n = x1 + alpha*p1;
+		x2n = x2 + alpha*p2;
+		
+		f_vn = f(variables_new);
+		f.recompute(x1, x2);
+		f.t = f.curve.find_nearest(f.point);
+
+		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear();
 #ifndef _DEBUG
 		plt::clf();
-		plt::plot(xAxsys, residual);
-		plt::plot(xAxsys, fv);
-		plt::plot(xAxsys, fvn);
+		for (auto i = 0; i < 101; i++) {
+			auto z = float(i) / float(100);
+			auto P = f.curve.getPoint(z);
+			Bnx.push_back(P.x);
+			Bny.push_back(P.y);
+		}
+		for (auto &i : f.curve.PPoints) {
+			Pnx.push_back(i.x);
+			Pny.push_back(i.y);
+		}
+		
+			npx.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).x);
+			npy.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).y);
+			plt::plot(npx, npy,"D");
+		plt::grid(true);
+		plt::axis("equal");
+		plt::plot(x, y, "D");
+		plt::plot(Pnx, Pny, "x--r");
+		plt::plot(Bnx, Bny);
+		//		plt::plot(npx, npy, "rs");
+		if (i == 40) alpha = 0.1;
+		if (i == 100) alpha = 1;
 		plt::pause(0.2);
 #endif
-		//Sleep(1000);
 	}
+	if (!isSolutionNotReached)
+	{
+		x1 = x1n;
+		x2 = x2n;
+	}
+}
+
+template<typename F1, typename F2, typename T>
+void complex_minimization(F1& f1, F2& f2, vector<T>& variables, Configuration _config)
+{
+	newton_minimization(f1, variables, _config);
+	newton_minimization(f2, variables, _config);
 }
 
 template<typename T>
@@ -335,7 +345,7 @@ void method_bisection(F& f, vector<T> &variables, const T left_border, const T r
 	xn = (a + b) / 2;
 	auto fx = f(variables);
 	auto fxn = f(new_variables);
-	while (fabsf(f(new_variables) - f(variables)) > (1e-10))
+	while (fabsf(f(new_variables) - f(variables)) > (1e-8))
 	{
 		x = xn;
 		dfx = df(new_variables, 0);
@@ -366,6 +376,7 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 	new_variables.push_back(x);
 	new_variables.push_back(x);
 	T& xn = new_variables[0];
+
 	auto dfx = df(new_variables, 0);
 	if (dfx < 0)
 	{
@@ -379,6 +390,7 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 	new_variables[1] = xn;
 	auto fx = f(variables);
 	auto fxn = f(new_variables);
+	f.recompute(new_variables[0],new_variables[1]);
 	while (fabsf(f(new_variables) - f(variables)) > (1e-6))
 	{
 		x = xn;
@@ -394,6 +406,38 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 		}
 		xn = (a + b) / 2;
 		new_variables[1] = xn;
+		f.recompute(new_variables[0], new_variables[1]);
+		//****************************для отображения
+		vector<float32> Pnx, Pny, Bnx, Bny;
+		for (size_t i = 0; i < 101; i++)
+		{
+			float32 t = float(i) / float(100);
+			Bnx.push_back(f.curve.getPoint(t).x);
+			Bny.push_back(f.curve.getPoint(t).y);
+		}
+		for (auto &i : f.curve.PPoints)
+		{
+			Pnx.push_back(i.x);
+			Pny.push_back(i.y);
+		}
+#ifndef _DEBUG
+		plt::clf();
+		//		plt::plot(xAxsys, residual);
+		//		plt::plot(xAxsys, fv);
+		//		plt::plot(xAxsys, fvn);
+		plt::grid(true);
+		plt::axis("equal");
+		vector<float32> x, y;
+		x.push_back(f.point.x);
+		y.push_back(f.point.y);
+		plt::plot(x, y, "D");
+		plt::plot(Pnx, Pny, "x--r");
+		plt::plot(Bnx, Bny);
+		plt::pause(0.5);
+#endif
+		//****************************для отображения
+		
 	}
 	x = xn;
+	variables[1] = x;
 }

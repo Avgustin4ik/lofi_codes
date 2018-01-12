@@ -754,13 +754,13 @@ namespace matplotlibcpp {
 			template<typename U, U> struct Check;
 
 			template<typename U>
-			static std::true_type test( ... ); // use a variadic function to make sure (1) it accepts everything and (2) its always the worst match
+			static std::true_type Setups( ... ); // use a variadic function to make sure (1) it accepts everything and (2) its always the worst match
 
 			template<typename U>
-			static std::false_type test( Check<void(Fallback::*)(), &U::operator()>* );
+			static std::false_type Setups( Check<void(Fallback::*)(), &U::operator()>* );
 
 		public:
-			typedef decltype(test<Derived>(nullptr)) type;
+			typedef decltype(Setups<Derived>(nullptr)) type;
 			typedef decltype(&Fallback::operator()) dtype;
 			static constexpr bool value = type::value;
 		}; // an object is callable iff it defines operator()

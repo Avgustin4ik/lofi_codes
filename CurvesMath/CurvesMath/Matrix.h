@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Test.h"
+#include "Setups.h"
 //using namespace std;
 template <typename T>
 
@@ -10,8 +10,7 @@ protected:
 	vector<T> mtrx;
 	size_t m, n;
 
-//	void swap_rows(const size_t &First, const size_t &Second);
-	void swap_rows(size_t &First, size_t &Second);
+	void swap_rows(const size_t &First,const size_t &Second);
 	void simple_converting();
 
 public:
@@ -45,7 +44,7 @@ public:
 	//***********************
 };
 template<typename T>
-inline void Matrix<T>::swap_rows(size_t & First,size_t & Second)
+inline void Matrix<T>::swap_rows(const size_t & First,const size_t & Second)
 {
 	for (size_t j = 0; j < n; j++)
 	{

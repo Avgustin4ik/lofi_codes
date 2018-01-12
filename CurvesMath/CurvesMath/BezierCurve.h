@@ -2,7 +2,7 @@
 #include "Vertex2D.h"
 #include "Vector2D.h"
 #include <vector>
-#include "Test.h"
+#include "Setups.h"
 
 
 using namespace std;
@@ -22,6 +22,7 @@ public:
 	uint m;
 //	vector<Vertex2D<T>> Points;	//координаты кривой
 	vector<Vertex2D<T>> PPoints;	//координаты характерных точек
+	vector<T> bernstein_data;
 
 	BezierCurve()	//стандартная кривая с 3 определяющими точками с координатами (0,0); (0.5,0.5); и (1,0)
 		:m(2)
@@ -46,7 +47,7 @@ public:
 	{
 		compute();
 	}
-	vector<T> bernstein_data;
+	BezierCurve(BezierCurve<T>& _curve) :PPoints(_curve.PPoints), m(_curve.m), bernstein_data(_curve.bernstein_data) {};
 	float32 fact(const float value) {	//вычисление факториала числа типа float
 		float ans = value;
 		if (value == 0) { ans = 1; return ans; }
