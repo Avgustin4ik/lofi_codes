@@ -1,33 +1,42 @@
 #pragma once
-
 #include "Setups.h"
+#include <initializer_list>
+#include <vector>
 //using namespace std;
+#define EQUAL(X,Y) ( ABS((X) - (Y)) <= FLT_EPSILON ? (Y) : (X) )
+#define ABS(X) ( (X) < 0 ? -(X) : (X) )
+
 template <typename T>
 
 class Matrix
 { 
 protected:
-	vector<T> mtrx;
-	size_t m, n;
-
-	void swap_rows(const size_t &First,const size_t &Second);
-	void simple_converting();
+	
+	
 
 public:
+	std::vector<T> mtrx;
+	size_t m, n;
+
+	void swap_rows(const size_t &First, const size_t &Second);
+	void simple_converting();
 	//потом удалить
 	void Print();
 	//***********************
 	//констуркторы
 
 	Matrix();
+	/*Matrix(Matrix<T> _Mtrx);*/
 	Matrix(Matrix<T>& _Mtrx);
-	Matrix(size_t &NumberOfRows, size_t &NumberOfColumns);
-	Matrix(bool IdentityMatrix, size_t Size);//Size - размер квадратной матрицы, Indentity - является ли единичной матрицей
-
+	Matrix(const std::vector<std::vector<T>> &matr);
+	Matrix(T *A,const size_t _m, const size_t _n);
+	Matrix(const size_t &NumberOfRows,const size_t &NumberOfColumns);
+	//Matrix(bool IdentityMatrix, size_t Size);//Size - размер квадратной матрицы, Indentity - является ли единичной матрицей
+	static Matrix<T> MakeIdentity(size_t Size);
 	//***********************
 	//Операторы матриц
 
-	T& operator () (size_t &_M, size_t &_N);
+	T& operator () (const size_t &_M, const size_t &_N);
 	const T& operator () (const size_t &_M,const size_t &_N) const;
 	Matrix<T> operator = (const Matrix<T> &_Mtrx);
 	Matrix<T> operator + (const Matrix<T> &_Var);
@@ -36,8 +45,6 @@ public:
 	Matrix<T> operator *= (const Matrix<T> &_Var);	//поэлементное умножение
 
 	//***********************
-	//функции
-
 	Matrix<T> transpose();
 	float determinant();
 	Matrix<T> invers();
@@ -99,49 +106,92 @@ inline Matrix<T>::Matrix()
 	{
 		for (size_t j = 0; j < n; j++)
 		{
-			mtrx.push_back(i+j + 3*j/(i+1)/3);
+			mtrx.push_back(0);
 		}
 	}
 }
 
+//template<typename T>
+//inline Matrix<T>::Matrix(Matrix<T> _Mtrx)
+//	:m(_Mtrx.m), n(_Mtrx.n), mtrx(_Mtrx.mtrx)
+//{
+//}
+
 
 template<typename T>
 inline Matrix<T>::Matrix(Matrix<T>&  _Mtrx)
-	:m(_Mtrx.m),n(_Mtrx.n)
+	:m(_Mtrx.m),n(_Mtrx.n),mtrx(_Mtrx.mtrx)
 {
-	mtrx=_Mtrx.mtrx;
 }
 
 template<typename T>
-inline Matrix<T>::Matrix(size_t &NumberOfRows, size_t &NumberOfColumns)
+inline Matrix<T>::Matrix(const std::vector<std::vector<T>>& matr):m(matr.size()),n(matr[0].size())
+{
+	mtrx.reserve(m*n);
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			mtrx.push_back(matr[i].at(j));
+		}
+	}
+
+}
+
+template<typename T>
+inline Matrix<T>::Matrix(T *A, const size_t _m, const size_t _n)
+	: m(_m), n(_n)
+{
+	for (size_t i = 0; i < m; i++)
+	{
+		for (size_t i = 0; i < n; i++)
+		{
+			this->(i, j) = A[i][j];
+		}
+	}
+}
+
+template<typename T>
+inline Matrix<T>::Matrix(const size_t &NumberOfRows, const size_t &NumberOfColumns)
 	: m(NumberOfRows), n(NumberOfColumns)
 {
 	for (size_t i = 0; i < m; i++)
 	{
 		for (size_t j = 0; j < n; j++)
 		{
-			mtrx.push_back(i+j);
+			mtrx.push_back(0.0);
 		}
 	}
 }
-
 
 template<typename T>
-inline Matrix<T>::Matrix(bool IdentityMatrix, size_t Size)
-	: m(Size), n(Size)
+inline Matrix<T> Matrix<T>::MakeIdentity(size_t Size)
 {
-	for (size_t i = 0; i < m; i++)
+	auto m = Matrix<T>(Size, Size);
+	for (int i = 0; i < Size; i++)
 	{
-		for (size_t j = 0; j < n; j++)
-		{
-			if ((IdentityMatrix)&&(i==j))
-			{
-				mtrx.push_back(1);
-			}
-			else mtrx.push_back(0);
-		}
+		m(i, i) = 1.0;
 	}
+	return m;
 }
+
+
+//template<typename T>
+//inline Matrix<T>::Matrix(bool IdentityMatrix, size_t Size)
+//	: m(Size), n(Size)
+//{
+//	for (size_t i = 0; i < m; i++)
+//	{
+//		for (size_t j = 0; j < n; j++)
+//		{
+//			if ((IdentityMatrix)&&(i==j))
+//			{
+//				mtrx.push_back(1);
+//			}
+//			else mtrx.push_back(0);
+//		}
+//	}
+//}
 
 
 
@@ -294,7 +344,7 @@ inline Matrix<T> Matrix<T>::invers()
 	else
 	{
 		Matrix<T> temp((*this));
-		Matrix<T> result( true , temp.m);
+		Matrix<T> result = MakeIdentity(temp.m);
 		if ((*this)(0,0) == 0)
 		{
 			size_t number = 0;
@@ -312,8 +362,8 @@ inline Matrix<T> Matrix<T>::invers()
 			T vip_element = temp(i, i);
 			for (size_t j = 0; j < temp.m; j++)
 			{
-				temp(i, j) = EQUAL(temp(i, j) / vip_element,0);
-				result(i, j) = EQUAL(result(i, j) / vip_element,0);
+				temp(i, j) = EQUAL(temp(i, j) / vip_element,0.0);
+				result(i, j) = EQUAL(result(i, j) / vip_element,0.0);
 			}
 			for (size_t row = 0; row < temp.m; row++)
 			{
@@ -324,8 +374,8 @@ inline Matrix<T> Matrix<T>::invers()
 						T first_element = temp(row, i);
 							for (size_t k = 0; k < temp.m; k++)
 							{
-								temp(row, k) = EQUAL(temp(row, k) - temp(i, k)*first_element,0);
-								result(row, k) = EQUAL(result(row, k) - result(i, k)*first_element,0);
+								temp(row, k) = EQUAL(temp(row, k) - temp(i, k)*first_element,0.0);
+								result(row, k) = EQUAL(result(row, k) - result(i, k)*first_element,0.0);
 							}
 					}
 					else continue;
@@ -338,7 +388,7 @@ inline Matrix<T> Matrix<T>::invers()
 }
 
 template<typename T>
-inline T& Matrix<T>::operator () (size_t &_M, size_t &_N)
+inline T& Matrix<T>::operator () (const size_t &_M,const size_t &_N)
 {
 	return mtrx[_M*n + _N];
 }

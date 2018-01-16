@@ -1,5 +1,6 @@
 #pragma once
 #include "Objective_function.h"
+#include "Gauss_math.h"
 #ifndef _DEBUG
 #include "matplotlibcpp.h"
 namespace plt = matplotlibcpp;
@@ -18,20 +19,14 @@ public:
 		delta_plus[i] = delta_plus[i] + h;
 		delta_minus[i] = delta_minus[i] - h;
 		return (f(delta_plus) - f(delta_minus)) / (2*h);
-/*		vector<T> delta_plus(var_arr);
-		delta_plus[i] = delta_plus[i] + h;
-		return ((f(delta_plus) - f(var_arr))) / h;*/
 	}
 	const T operator () (const vector<T>& var_arr, size_t i) const
 	{
-		/*vector<T> delta_plus(var_arr);
+		vector<T> delta_plus(var_arr);
 		vector<T> delta_minus(var_arr);
 		delta_plus[i] = delta_plus[i] + h;
 		delta_minus[i] = delta_minus[i] - h;
-		return (f(delta_plus) - f(delta_minus)) / (2*h);*/
-		vector<T> delta_plus(var_arr);
-		delta_plus[i] = delta_plus[i] + h;
-		return ((f(delta_plus) - f(var_arr))) / h;
+		return (f(delta_plus) - f(delta_minus)) / (2*h);
 	}
 private:
 	F& f;
@@ -50,9 +45,6 @@ public:
 		delta_plus[di] = delta_plus[di] + h;
 		delta_minus[di] = delta_minus[di] - h;
 		return (fp(delta_plus,i) - fp(delta_minus,i)) / (2 * h);
-/*		vector<T> delta_plus(var_arr);
-		delta_plus[di] = delta_plus[di] + h;
-		return ((fp(delta_plus,i) - fp(var_arr,i))) / h;*/
 
 	}
 private:
@@ -441,3 +433,7 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 	x = xn;
 	variables[1] = x;
 }
+
+
+//Для матриц********
+
