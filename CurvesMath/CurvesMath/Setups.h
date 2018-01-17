@@ -21,6 +21,6 @@ public:
 	const uint iterations_limit;
 	float32 h;//Приращение аргумента при нахождении производной	
 	float32 alpha;//Коэффициент релаксации
-	Configuration():iterations_limit(50),h(0.001),alpha(0.1) {};
+	Configuration():iterations_limit(200),h(0.001),alpha(0.01) {};
 	~Configuration() {};
 };

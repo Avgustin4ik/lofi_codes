@@ -121,7 +121,7 @@ template<typename F, typename T>
 
 void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 {
-	vector<T> npx, npy;
+	vector<T> npx, npy, fx, fy, dfx, dfy;
 	vector<float32>  x;
 	vector<float32>  y;
 	x.push_back(f.point.x);
@@ -138,6 +138,8 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	T &x2n = variables_new[1];
 	T p1, p2;
 	T g1, g2, G1, G2, G3, G4;
+	auto &P1 = f.curve.PPoints[1];
+	auto &P2 = f.curve.PPoints[2];
 	vector<float32> Pnx, Pny, Bnx, Bny;//для отображения
 //	vector<T> x, y;	x.push_back(f.point.x);	y.push_back(f.point.y);
 #ifndef _DEBUG
@@ -160,12 +162,14 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 #endif
 	f.recompute(x1, x2);
 	auto f_v = f(variables);
+
 	g1 = df(variables, 0);
 	g2 = df(variables, 1);
 	G1 = ddf(variables, 0, 0);
 	G2 = ddf(variables, 0, 1);
 	G3 = ddf(variables, 1, 0);
 	G4 = ddf(variables, 1, 1);
+	
 	T values[2][3] = {
 		{ G1, G3, -g1 },
 		{ G2, G4, -g2 }
@@ -173,6 +177,13 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	slau<T>(values, p1, p2);
 	x1n = x1 + alpha*p1;
 	x2n = x2 + alpha*p2;
+	//**************************************//
+	/*Matrix<T> A({ {G1,G3}, {G2,G4} });
+	Matrix<T> B({ {-g1},{-g2} });
+	Matrix<T> _A = A.invers();
+	Matrix<T> X = _A * B;
+	method_Gauss_SLAU(A, B, X);*/
+	//**************************************//
 	auto f_vn = f(variables_new);
 	f.recompute(x1, x2);
 	auto i = 1;
@@ -196,18 +207,12 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	plt::pause(0.5);
 #endif
 	vector<T> xx, yy;
-	while (fabs(f(variables_new)) > 1e-3)
+	while (fabs(f(variables_new)) > 1e-6)
 	{
-		//********************************
-		Vector2D<T> v = f.curve.dt(0);
-		Vertex2D<T> P1 = f.curve.PPoints[0] + v * x1n;
-		v = f.curve.dt(1);
-		v.reverse();
-		Vertex2D<T> P2 = f.curve.PPoints[3] + v * x2n;
-		//********************************
 		i++;
 		if (i == _config.iterations_limit) { isSolutionNotReached = true; break; }
-		if (P1.x > P2.x) { isSolutionNotReached = true; break; }
+		if (P1.x >= 1.5 || P2.x <= 1.5) { isSolutionNotReached = true; break; }
+		if (x1n == 1e-3 || x2n == 1e-3) { isSolutionNotReached = true; break; }
 		x1 = x1n;	x2 = x2n;
 		g1 = df(variables, 0);
 		g2 = df(variables, 1);
@@ -225,11 +230,17 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 		
 		f_vn = f(variables_new);
 		f.recompute(x1, x2);
-		f.t = f.curve.find_nearest(f.point);
+		fx.push_back(i);
+		fy.push_back(f_vn);
 
-		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear();
+		
+
+		if (i == 40) alpha *= 10;
+		if (i == 60 && alpha != 1) alpha *= 10;
+		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear(); dfx.clear(); dfy.clear();
 #ifndef _DEBUG
 		plt::clf();
+		plt::subplot(2, 3, 1);
 		for (auto i = 0; i < 101; i++) {
 			auto z = float(i) / float(100);
 			auto P = f.curve.getPoint(z);
@@ -240,19 +251,31 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 			Pnx.push_back(i.x);
 			Pny.push_back(i.y);
 		}
-		
-			npx.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).x);
-			npy.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).y);
-			plt::plot(npx, npy,"D");
+		npx.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).x);
+		npy.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).y);
+		plt::plot(npx, npy,"D");
 		plt::grid(true);
 		plt::axis("equal");
 		plt::plot(x, y, "D");
 		plt::plot(Pnx, Pny, "x--r");
 		plt::plot(Bnx, Bny);
-		//		plt::plot(npx, npy, "rs");
-		if (i == 40) alpha = 0.1;
-		if (i == 100) alpha = 1;
-		plt::pause(0.2);
+
+		plt::subplot(2, 3, 2);
+		plt::plot(fx, fy);
+		plt::grid(true);
+
+		plt::subplot(2, 3, 3);
+		plt::grid(true);
+		plt::axis("equal");
+		auto c = f.curve;
+		dfx.push_back(0);
+		dfx.push_back(c.dt(c.find_nearest(f.point)).x);
+		dfy.push_back(0);
+		dfy.push_back(c.dt(c.find_nearest(f.point)).y);
+		plt::plot(dfx, dfy);
+		plt::grid(true);
+
+		plt::pause(0.1);
 #endif
 	}
 	if (!isSolutionNotReached)
@@ -353,7 +376,7 @@ void method_bisection(F& f, vector<T> &variables, const T left_border, const T r
 	}
 	x = xn;
 }
-template <typename F, typename T>
+template <typename F, typename T>			
 void method_bisection_two_variables(F& f, vector<T> &variables, const T left_border, const T right_border)
 {
 	using d_f = derivarive<F, T>;
@@ -434,6 +457,4 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 	variables[1] = x;
 }
 
-
-//Для матриц********
 
