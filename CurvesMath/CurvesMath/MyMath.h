@@ -5,7 +5,6 @@
 #include "matplotlibcpp.h"
 namespace plt = matplotlibcpp;
 #endif
-
 template<typename F, typename T>
 class derivarive //производная по двум точкам (слева и права) (f(x + h) - f(x - h)) / (2 * h)
 {
@@ -28,10 +27,29 @@ public:
 		delta_minus[i] = delta_minus[i] - h;
 		return (f(delta_plus) - f(delta_minus)) / (2*h);
 	}
+
+	Matrix<T> operator ()(const vector<T>& var)
+	{
+		size_t size = var.size();
+		Matrix<T> result(size, 1);
+		for (size_t i = 0; i < size; i++)
+		{
+			vector<T> delta_plus(var);
+			vector<T> delta_minus(var);
+			delta_plus[i] = delta_plus[i] + h;
+			delta_minus[i] = delta_minus[i] - h;
+			T a = (f(delta_plus) - f(delta_minus)) / (2 * h);
+			result(i, 0) = a;
+		}
+		return result;
+	}
+
 private:
 	F& f;
 	T h;
 };
+
+
 template <typename F,typename T>
 class second_derivative
 {
@@ -45,7 +63,23 @@ public:
 		delta_plus[di] = delta_plus[di] + h;
 		delta_minus[di] = delta_minus[di] - h;
 		return (fp(delta_plus,i) - fp(delta_minus,i)) / (2 * h);
-
+	}
+	Matrix<T> operator ()(const vector<T>& var)
+	{
+		size_t size = var.size();
+		Matrix<T> result(size, size);
+		for (size_t i = 0; i < size; i++)
+			for (size_t j = 0; j < size; j++)
+			{
+				size_t index = i*size + j;
+				vector<T> delta_plus(var);
+				vector<T> delta_minus(var);
+				delta_plus[j] = delta_plus[j] + h;
+				delta_minus[j] = delta_minus[j] - h;
+				T a = (fp(delta_plus)(i,0) - fp(delta_minus)(i,0)) / (2 * h);
+				result(i, j) = a;
+			}
+		return result;
 	}
 private:
 	T h;
@@ -121,6 +155,7 @@ template<typename F, typename T>
 
 void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 {
+	vector<T> initial_data(variables);
 	vector<T> npx, npy, fx, fy, dfx, dfy;
 	vector<float32>  x;
 	vector<float32>  y;
@@ -132,16 +167,14 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	derivarive<F, T> df(f,h);
 	second_derivative<F, T> ddf(f, h);
 	vector<T> variables_new(2);
+	Matrix<T> p(variables.size(), 1);
 	T &x1 = variables[0];
 	T &x2 = variables[1];
 	T &x1n = variables_new[0];
 	T &x2n = variables_new[1];
-	T p1, p2;
-	T g1, g2, G1, G2, G3, G4;
 	auto &P1 = f.curve.PPoints[1];
-	auto &P2 = f.curve.PPoints[2];
+	auto &P2 = f.curve.PPoints[f.curve.PPoints.size()-2];
 	vector<float32> Pnx, Pny, Bnx, Bny;//для отображения
-//	vector<T> x, y;	x.push_back(f.point.x);	y.push_back(f.point.y);
 #ifndef _DEBUG
 	plt::clf();
 	for (auto i = 0; i < 101; i++) {
@@ -160,32 +193,20 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	plt::plot(Bnx, Bny);
 	plt::pause(0.5);
 #endif
-	f.recompute(x1, x2);
+	f.recompute(variables);
 	auto f_v = f(variables);
-
-	g1 = df(variables, 0);
-	g2 = df(variables, 1);
-	G1 = ddf(variables, 0, 0);
-	G2 = ddf(variables, 0, 1);
-	G3 = ddf(variables, 1, 0);
-	G4 = ddf(variables, 1, 1);
-	
-	T values[2][3] = {
-		{ G1, G3, -g1 },
-		{ G2, G4, -g2 }
-	};
-	slau<T>(values, p1, p2);
-	x1n = x1 + alpha*p1;
-	x2n = x2 + alpha*p2;
-	//**************************************//
-	/*Matrix<T> A({ {G1,G3}, {G2,G4} });
-	Matrix<T> B({ {-g1},{-g2} });
-	Matrix<T> _A = A.invers();
-	Matrix<T> X = _A * B;
-	method_Gauss_SLAU(A, B, X);*/
-	//**************************************//
+	size_t size = variables.size();
+	auto g(df(variables));
+	auto G(ddf(variables));
+	g = g * -1;
+	method_Gauss_SLAU(G, g, p);
+	for (size_t i = 0; i < p.m; i++)
+	{
+		size_t j = 0;
+		variables_new[i] = variables[i] + alpha * p(i, j);
+	}
 	auto f_vn = f(variables_new);
-	f.recompute(x1, x2);
+	f.recompute(variables_new);
 	auto i = 1;
 	Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear();
 #ifndef _DEBUG
@@ -209,34 +230,37 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	vector<T> xx, yy;
 	while (fabs(f(variables_new)) > 1e-6)
 	{
+		variables = variables_new;
 		i++;
+		if (i == _config.iterations_limit / 2) { f.add_PPoint(variables); }
 		if (i == _config.iterations_limit) { isSolutionNotReached = true; break; }
-		if (P1.x >= 1.5 || P2.x <= 1.5) { isSolutionNotReached = true; break; }
-		if (x1n == 1e-3 || x2n == 1e-3) { isSolutionNotReached = true; break; }
-		x1 = x1n;	x2 = x2n;
-		g1 = df(variables, 0);
-		g2 = df(variables, 1);
-		G1 = ddf(variables, 0, 0);
-		G2 = ddf(variables, 0, 1);
-		G3 = ddf(variables, 1, 0);
-		G4 = ddf(variables, 1, 1);
-		T values[2][3] = {
-			{ G1, G3, -g1 },
-			{ G2, G4, -g2 }
-		};
-		slau<T>(values, p1, p2);
-		x1n = x1 + alpha*p1;
-		x2n = x2 + alpha*p2;
-		
+		if (P1.x >= 1.5 || P2.x <= 1.5) { 
+			variables = initial_data;
+			f.recompute(variables);
+			f.add_PPoint(variables);
+			initial_data = variables;
+		}
+		if (x1n <= 1e-3 || x2n <= 1e-3) { 
+			variables = initial_data;
+			f.recompute(variables);
+			f.add_PPoint(variables); 
+			initial_data = variables;
+		}
+		if (i == 30) alpha *= 10;
+		if (i == 60 && alpha != 1) alpha *= 10;
+		auto g(df(variables));
+		auto G(ddf(variables));
+		g = g * -1;
+		method_Gauss_SLAU(G, g, p);
+		for (size_t i = 0; i < p.m; i++)
+		{
+			size_t j = 0;
+			variables_new[i] = variables[i] + alpha * p(i, j);
+		}
 		f_vn = f(variables_new);
-		f.recompute(x1, x2);
+		f.recompute(variables);
 		fx.push_back(i);
 		fy.push_back(f_vn);
-
-		
-
-		if (i == 40) alpha *= 10;
-		if (i == 60 && alpha != 1) alpha *= 10;
 		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear(); dfx.clear(); dfy.clear();
 #ifndef _DEBUG
 		plt::clf();
@@ -263,13 +287,13 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 		plt::subplot(2, 3, 2);
 		plt::plot(fx, fy);
 		plt::grid(true);
-
+		
 		plt::subplot(2, 3, 3);
 		plt::grid(true);
 		plt::axis("equal");
 		auto c = f.curve;
 		dfx.push_back(0);
-		dfx.push_back(c.dt(c.find_nearest(f.point)).x);
+		dfx.push_back(c.dt(0).x);
 		dfy.push_back(0);
 		dfy.push_back(c.dt(c.find_nearest(f.point)).y);
 		plt::plot(dfx, dfy);
@@ -280,8 +304,7 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	}
 	if (!isSolutionNotReached)
 	{
-		x1 = x1n;
-		x2 = x2n;
+		variables = variables_new;
 	}
 }
 

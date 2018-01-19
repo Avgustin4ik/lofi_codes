@@ -100,7 +100,7 @@ inline void Matrix<T>::Print()
 
 template<typename T>
 inline Matrix<T>::Matrix()
-	:m(8), n(8)
+	:m(4), n(4)
 {
 	for (size_t i = 0; i < m; i++)
 	{

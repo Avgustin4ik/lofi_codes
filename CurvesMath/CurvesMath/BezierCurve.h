@@ -66,11 +66,8 @@ public:
 			for (size_t i = 0; i < PPoints.size(); i++)
 			{
 					auto b = Bernstein(m, i);
-//					R.x += B*PPoints[i].x;
-//					R.y += B*PPoints[i].y;
 					bernstein_data.push_back(b);
 			}
-		//	Points.push_back(R);
 	}
 	const Vertex2D<T> getPoint(const float32 t)
 	{
@@ -134,7 +131,8 @@ public:
 			newPPoints.push_back(R);
 		}
 		newPPoints.push_back(PPoints.back());
-		PPoints.swap(newPPoints);
+		PPoints.assign(newPPoints.begin(), newPPoints.end());
+		//PPoints.swap(newPPoints);
 		compute();
 	}
 	const T find_nearest(const Vertex2D<T>& point)
