@@ -151,10 +151,18 @@ public:
 		tangent_vectors = tempTangents;
 		recompute(variables);
 	}
+	T coincidence_condition()
+	{
+		
+	}
+	T tangent_condition()
+	{
+
+	}
 	T operator () (const vector<T>& variables)
 	{
 		Vertex2D<T> A = getBezierPoint(variables);
-		auto B = powf((A.x - point.x), 2) + powf((A.y - point.y), 2) + powf(dt.y  - dt.x * tanf(betta*PI/180.0),2);
+		auto B = powf((A.x - point.x), 2) + powf((A.y - point.y), 2)+ powf(dt.y  - dt.x * tanf(betta*PI/180.0),2);
 		return (B);
 	}
 

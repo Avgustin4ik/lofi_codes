@@ -153,7 +153,7 @@ void slau(T values[2][3], T& x1, T& x2)
 
 template<typename F, typename T>
 
-void newton_minimization(F& f,vector<T>& variables, Configuration _config )
+void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, Configuration _config )
 {
 	vector<T> initial_data(variables);
 	vector<T> npx, npy, fx, fy, dfx, dfy;
@@ -168,12 +168,7 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	second_derivative<F, T> ddf(f, h);
 	vector<T> variables_new(2);
 	Matrix<T> p(variables.size(), 1);
-	T &x1 = variables[0];
-	T &x2 = variables[1];
-	T &x1n = variables_new[0];
-	T &x2n = variables_new[1];
-	auto &P1 = f.curve.PPoints[1];
-	auto &P2 = f.curve.PPoints[f.curve.PPoints.size()-2];
+	
 	vector<float32> Pnx, Pny, Bnx, Bny;//для отображения
 #ifndef _DEBUG
 	plt::clf();
@@ -228,25 +223,46 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	plt::pause(0.5);
 #endif
 	vector<T> xx, yy;
-	while (fabs(f(variables_new)) > 1e-6)
+	while (fabs(f(variables_new)) > 1e-5)
+	//while (powf((f.getBezierPoint(variables_new).x - f.point.x), 2) + powf((f.getBezierPoint(variables_new).y - f.point.y), 2) > 1e-5)
 	{
+		T &x1 = variables[0];
+		T &x2 = variables[1];
+		T &x1n = variables_new[0];
+		T &x2n = variables_new[1];
+		vector<Vertex2D<T>> &PP = f.curve.PPoints;
 		variables = variables_new;
 		i++;
-		if (i == _config.iterations_limit / 2) { f.add_PPoint(variables); }
+		int m = f.curve.PPoints.size()-1;
+		if (i > (m-2)*50) { 
+			//variables = initial_data;
+			f.recompute(variables);
+			f.add_PPoint(variables);
+			initial_data = variables;
+			p = Matrix<T>(variables.size(), 1);
+			//alpha = _config.alpha;
+			variables_new.push_back(0.0);
+		}
 		if (i == _config.iterations_limit) { isSolutionNotReached = true; break; }
-		if (P1.x >= 1.5 || P2.x <= 1.5) { 
+		if (PP[1].x >= PP[2].x || PP[PP.size() - 2].x <= PP[PP.size() - 3].x) {
 			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables);
 			initial_data = variables;
+			p = Matrix<T>(variables.size(), 1);
+			//alpha = _config.alpha;
+			variables_new.push_back(0.0);
 		}
 		if (x1n <= 1e-3 || x2n <= 1e-3) { 
 			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables); 
 			initial_data = variables;
+			p = Matrix<T>(variables.size(), 1);
+			//alpha = _config.alpha;
+			variables_new.push_back(0.0);
 		}
-		if (i == 30) alpha *= 10;
+		/*if (i == 30) alpha *= 10;*/
 		if (i == 60 && alpha != 1) alpha *= 10;
 		auto g(df(variables));
 		auto G(ddf(variables));
@@ -298,7 +314,7 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 		dfy.push_back(c.dt(c.find_nearest(f.point)).y);
 		plt::plot(dfx, dfy);
 		plt::grid(true);
-
+		plt::axis("equal");
 		plt::pause(0.1);
 #endif
 	}
@@ -306,13 +322,6 @@ void newton_minimization(F& f,vector<T>& variables, Configuration _config )
 	{
 		variables = variables_new;
 	}
-}
-
-template<typename F1, typename F2, typename T>
-void complex_minimization(F1& f1, F2& f2, vector<T>& variables, Configuration _config)
-{
-	newton_minimization(f1, variables, _config);
-	newton_minimization(f2, variables, _config);
 }
 
 template<typename T>
