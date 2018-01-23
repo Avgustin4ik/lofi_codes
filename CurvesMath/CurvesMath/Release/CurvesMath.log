@@ -12,14 +12,14 @@ d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(17): warning C4244:
   d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(16): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
   d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(68): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 BezierCurve<float32>::Bernstein(const uint,const uint)"
 d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(17): warning C4244: аргумент: преобразование "uint" в "const float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(278): warning C4244: аргумент: преобразование "int" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(279): warning C4244: аргумент: преобразование "int" в "const float32", возможна потеря данных
   CurvesMath.cpp(57): note: выполняется компиляция ссылки на экземпляр шаблон функции "void newton_minimization<objective_function_tangent<float32>,float32>(objective_function_tangent<float32> &,std::vector<T,std::allocator<_Ty>> &,Configuration)"
           with
           [
               T=float32,
               _Ty=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(374): warning C4305: инициализация: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(375): warning C4305: инициализация: усечение из "double" в "float32"
   d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(144): note: выполняется компиляция ссылки на экземпляр шаблон функции "void method_bisection<function_bezier2point<float32>,T>(F &,std::vector<T,std::allocator<_Ty>> &,const T,const T)"
           with
           [
@@ -47,16 +47,6 @@ d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(108): warnin
               _Ty=float32
           ]
 d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(114): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(105): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(100): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(312): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> BezierCurve<T>::dt(const float32)"
-          with
-          [
-              T=float32
-          ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(105): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(106): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(106): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
 d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(82): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
   d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(76): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
   d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(164): note: выполняется компиляция ссылки на экземпляр шаблон функции "Vertex2D<float32> objective_function_tangent<float32>::getBezierPoint(const std::vector<T,std::allocator<_Ty>> &)"
@@ -66,6 +56,16 @@ d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(82): warning
               _Ty=float32
           ]
 d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(88): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
+d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(105): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(100): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(143): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> BezierCurve<T>::dt(const float32)"
+          with
+          [
+              T=float32
+          ]
+d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(105): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(106): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(106): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
 d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(21): warning C4244: /=: преобразование "float64" в "float32", возможна потеря данных
   d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(19): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
   d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(108): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> Vector2D<T>::normalize(void)"
@@ -93,8 +93,8 @@ d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(121): warning C4244:
           ]
 d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(123): warning C4244: =: преобразование "float64" в "float32", возможна потеря данных
   Создание кода
-  7 of 452 functions ( 1.5%) were compiled, the rest were copied from previous compilation.
+  1 of 450 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    9 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   CurvesMath.vcxproj -> D:\Work Roman\lofi_codes\CurvesMath\Release\CurvesMath.exe

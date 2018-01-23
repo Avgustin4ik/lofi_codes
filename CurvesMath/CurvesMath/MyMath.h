@@ -204,6 +204,7 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	f.recompute(variables_new);
 	auto i = 1;
 	Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear();
+	bool norm(true);
 #ifndef _DEBUG
 	plt::clf();
 	for (auto i = 0; i < 101; i++) {
@@ -226,44 +227,44 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	while (fabs(f(variables_new)) > 1e-5)
 	//while (powf((f.getBezierPoint(variables_new).x - f.point.x), 2) + powf((f.getBezierPoint(variables_new).y - f.point.y), 2) > 1e-5)
 	{
-		T &x1 = variables[0];
-		T &x2 = variables[1];
 		T &x1n = variables_new[0];
 		T &x2n = variables_new[1];
+		
 		vector<Vertex2D<T>> &PP = f.curve.PPoints;
-		variables = variables_new;
 		i++;
 		int m = f.curve.PPoints.size()-1;
-		if (i > (m-2)*50) { 
-			//variables = initial_data;
+		if (i > (m-2)*20) { 
+			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables);
 			initial_data = variables;
 			p = Matrix<T>(variables.size(), 1);
-			//alpha = _config.alpha;
+			alpha = _config.alpha;
 			variables_new.push_back(0.0);
+			norm = false;
 		}
 		if (i == _config.iterations_limit) { isSolutionNotReached = true; break; }
 		if (PP[1].x >= PP[2].x || PP[PP.size() - 2].x <= PP[PP.size() - 3].x) {
-			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables);
 			initial_data = variables;
 			p = Matrix<T>(variables.size(), 1);
-			//alpha = _config.alpha;
+			alpha = _config.alpha;
 			variables_new.push_back(0.0);
+			norm = false;
 		}
-		if (x1n <= 1e-3 || x2n <= 1e-3) { 
-			variables = initial_data;
+		if (x1n <= 1e-3 || x2n <= 1e-3) {
 			f.recompute(variables);
-			f.add_PPoint(variables); 
+			f.add_PPoint(variables);
 			initial_data = variables;
 			p = Matrix<T>(variables.size(), 1);
-			//alpha = _config.alpha;
+			alpha = _config.alpha;
 			variables_new.push_back(0.0);
-		}
-		/*if (i == 30) alpha *= 10;*/
-		if (i == 60 && alpha != 1) alpha *= 10;
+			norm = false;
+		} 
+		if (norm) variables = variables_new;
+		norm = true;
+		if (i > (m - 2) * 30) alpha = 1;
 		auto g(df(variables));
 		auto G(ddf(variables));
 		g = g * -1;
@@ -274,49 +275,49 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 			variables_new[i] = variables[i] + alpha * p(i, j);
 		}
 		f_vn = f(variables_new);
-		f.recompute(variables);
+		f.recompute(variables_new);
 		fx.push_back(i);
 		fy.push_back(f_vn);
 		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear(); dfx.clear(); dfy.clear();
-#ifndef _DEBUG
-		plt::clf();
-		plt::subplot(2, 3, 1);
-		for (auto i = 0; i < 101; i++) {
-			auto z = float(i) / float(100);
-			auto P = f.curve.getPoint(z);
-			Bnx.push_back(P.x);
-			Bny.push_back(P.y);
-		}
-		for (auto &i : f.curve.PPoints) {
-			Pnx.push_back(i.x);
-			Pny.push_back(i.y);
-		}
-		npx.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).x);
-		npy.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).y);
-		plt::plot(npx, npy,"D");
-		plt::grid(true);
-		plt::axis("equal");
-		plt::plot(x, y, "D");
-		plt::plot(Pnx, Pny, "x--r");
-		plt::plot(Bnx, Bny);
-
-		plt::subplot(2, 3, 2);
-		plt::plot(fx, fy);
-		plt::grid(true);
-		
-		plt::subplot(2, 3, 3);
-		plt::grid(true);
-		plt::axis("equal");
-		auto c = f.curve;
-		dfx.push_back(0);
-		dfx.push_back(c.dt(0).x);
-		dfy.push_back(0);
-		dfy.push_back(c.dt(c.find_nearest(f.point)).y);
-		plt::plot(dfx, dfy);
-		plt::grid(true);
-		plt::axis("equal");
-		plt::pause(0.1);
-#endif
+//#ifndef _DEBUG
+//		plt::clf();
+//		plt::subplot(2, 3, 1);
+//		for (auto i = 0; i < 101; i++) {
+//			auto z = float(i) / float(100);
+//			auto P = f.curve.getPoint(z);
+//			Bnx.push_back(P.x);
+//			Bny.push_back(P.y);
+//		}
+//		for (auto &i : f.curve.PPoints) {
+//			Pnx.push_back(i.x);
+//			Pny.push_back(i.y);
+//		}
+//		npx.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).x);
+//		npy.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).y);
+//		plt::plot(npx, npy,"D");
+//		plt::grid(true);
+//		plt::axis("equal");
+//		plt::plot(x, y, "D");
+//		plt::plot(Pnx, Pny, "x--r");
+//		plt::plot(Bnx, Bny);
+//
+//		plt::subplot(2, 3, 2);
+//		plt::plot(fx, fy);
+//		plt::grid(true);
+//		
+//		plt::subplot(2, 3, 3);
+//		plt::grid(true);
+//		plt::axis("equal");
+//		auto c = f.curve;
+//		dfx.push_back(0);
+//		dfx.push_back(c.dt(0).x);
+//		dfy.push_back(0);
+//		dfy.push_back(c.dt(c.find_nearest(f.point)).y);
+//		plt::plot(dfx, dfy);
+//		plt::grid(true);
+//		plt::axis("equal");
+//		plt::pause(0.001);
+//#endif
 	}
 	if (!isSolutionNotReached)
 	{
