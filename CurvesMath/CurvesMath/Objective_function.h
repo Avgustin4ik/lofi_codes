@@ -88,9 +88,11 @@ public:
 		if (temp.x > 0 | temp.y < 0)	temp.reverse();
 		P2 = ppoints[last] + temp*powf(x2, 2);
 		if (variables.size() > 2)
-			for (size_t i = 2; i < variables.size(); i++)
+			for (size_t i = 2; i < variables.size()-1; i++)
 			{
-				ppoints[i] = assist_curve.getPoint(assist_curve.find_nearest(ppoints[i])) + tangent_vectors[i - 2] * powf(variables[i], 2);
+				//ppoints[i] = assist_curve.getPoint(variables[i]) + tangent_vectors[i - 2] * powf(variables[i+1], 2);
+				//ppoints[i] = assist_curve.getPoint(variables[i]) + Vector2D<float32>(0.0, 1.0) * powf(variables[i + 1], 2);
+				ppoints[i] = Vertex2D<T>(powf(variables[i], 2), powf(variables[i + 1], 2));
 			}
 		auto tt = curve.find_nearest(point);
 		dt = curve.dt(tt);
@@ -114,10 +116,10 @@ public:
 		if (temp.x > 0 | temp.y < 0)	temp.reverse();
 		P2 = ppoints[last] + temp*powf(x2, 2);
 		if (variables.size() > 2)
-			for (size_t i = 2; i < variables.size(); i++)
+			for (size_t i = 2; i < variables.size()-1; i++)
 			{
-
-				ppoints[i] = assist_curve.getPoint(assist_curve.find_nearest(ppoints[i])) + tangent_vectors[i - 2] * powf(variables[i], 2);
+				//ppoints[i] = assist_curve.getPoint(variables[i]) + tangent_vectors[i - 2] * powf(variables[i+1], 2);
+				ppoints[i] = Vertex2D<T>(powf(variables[i], 2), powf(variables[i + 1], 2));
 			}
 		t = curve.find_nearest(point);
 		dt = curve.dt(t);
@@ -126,7 +128,7 @@ public:
 	{
 		vector<T> tempVariables;
 		vector<Vector2D<T>> tempTangents;
-		tempVariables.reserve(variables.size() + 1);
+		tempVariables.reserve(variables.size() + 2);
 		tempTangents.reserve(variables.size() - 2);
 		curve.increase();
 		vector<Vertex2D<float32>> &ppoints = curve.PPoints;
@@ -145,6 +147,7 @@ public:
 			tempTangents.emplace_back(normal);
 			Vertex2D<T> point_assist = assist_curve.getPoint(t_assist);
 			T gamma_i = sqrtf(ppoints[i].length(point_assist));
+			tempVariables.emplace_back(sqrtf(point_assist.x));
 			tempVariables.emplace_back(gamma_i);
 		}
 		variables = tempVariables;
