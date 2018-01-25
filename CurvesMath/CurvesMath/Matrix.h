@@ -3,7 +3,7 @@
 #include <initializer_list>
 #include <vector>
 //using namespace std;
-#define EQUAL(X,Y) ( ABS((X) - (Y)) <= FLT_EPSILON ? (Y) : (X) )
+#define EQUAL(X,Y) ( ABS((X) - (Y)) <= 1e-6 ? (Y) : (X) )
 #define ABS(X) ( (X) < 0 ? -(X) : (X) )
 
 template <typename T>
@@ -33,6 +33,7 @@ public:
 	Matrix(const size_t &NumberOfRows,const size_t &NumberOfColumns);
 	//Matrix(bool IdentityMatrix, size_t Size);//Size - размер квадратной матрицы, Indentity - является ли единичной матрицей
 	static Matrix<T> MakeIdentity(size_t Size);
+
 	//***********************
 	//Операторы матриц
 

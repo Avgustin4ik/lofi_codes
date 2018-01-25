@@ -1,5 +1,5 @@
 ﻿  CurvesMath.cpp
-d:\work roman\lofi_codes\curvesmath\curvesmath\Setups.h(24): warning C4305: инициализация: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\Setups.h(25): warning C4305: инициализация: усечение из "double" в "float32"
 CurvesMath.cpp(19): warning C4244: аргумент: преобразование "double" в "float32", возможна потеря данных
 CurvesMath.cpp(20): warning C4244: аргумент: преобразование "double" в "float32", возможна потеря данных
 CurvesMath.cpp(50): warning C4305: аргумент: усечение из "double" в "float32"
@@ -29,6 +29,42 @@ d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(380): warning C4305: и�
           ]
   d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(139): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
   CurvesMath.cpp(40): note: выполняется компиляция ссылки на экземпляр шаблон функции "const float32 BezierCurve<float32>::find_nearest(const Vertex2D<float32> &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(80): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(68): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(195): note: выполняется компиляция ссылки на экземпляр шаблон функции "Matrix<T> second_derivative<F,T>::operator ()(const std::vector<T,std::allocator<_Ty>> &)"
+          with
+          [
+              T=float32,
+              F=objective_function_tangent<float32>,
+              _Ty=float32
+          ]
+  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(168): note: выполняется компиляция ссылки на экземпляр шаблон класс "second_derivative<F,T>"
+          with
+          [
+              F=objective_function_tangent<float32>,
+              T=float32
+          ]
+  CurvesMath.cpp(57): note: выполняется компиляция ссылки на экземпляр шаблон функции "void newton_minimization<objective_function_tangent<float32>,float32>(objective_function_tangent<float32> &,std::vector<T,std::allocator<_Ty>> &,Configuration)"
+          with
+          [
+              T=float32,
+              _Ty=float32
+          ]
+d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(42): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(32): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(194): note: выполняется компиляция ссылки на экземпляр шаблон функции "Matrix<T> derivarive<F,T>::operator ()(const std::vector<T,std::allocator<_Ty>> &)"
+          with
+          [
+              T=float32,
+              F=objective_function_tangent<float32>,
+              _Ty=float32
+          ]
+  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(167): note: выполняется компиляция ссылки на экземпляр шаблон класс "derivarive<F,T>"
+          with
+          [
+              F=objective_function_tangent<float32>,
+              T=float32
+          ]
 d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(168): warning C4244: аргумент: преобразование "float64" в "float", возможна потеря данных
   d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(166): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
   d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(192): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 objective_function_tangent<float32>::operator ()(const std::vector<T,std::allocator<_Ty>> &)"
@@ -79,22 +115,19 @@ d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(21): warning C4244: /=
               T=float32
           ]
 d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(22): warning C4244: /=: преобразование "float64" в "float32", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(121): warning C4244: =: преобразование "float64" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(130): warning C4244: =: преобразование "float64" в "float32", возможна потеря данных
   d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(197): note: выполняется компиляция ссылки на экземпляр шаблон функции "void method_Gauss_SLAU<T>(Matrix<T> &,Matrix<T> &,Matrix<T> &)"
           with
           [
               T=float32
           ]
-  CurvesMath.cpp(57): note: выполняется компиляция ссылки на экземпляр шаблон функции "void newton_minimization<objective_function_tangent<float32>,float32>(objective_function_tangent<float32> &,std::vector<T,std::allocator<_Ty>> &,Configuration)"
-          with
-          [
-              T=float32,
-              _Ty=float32
-          ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(123): warning C4244: =: преобразование "float64" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(131): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(133): warning C4244: =: преобразование "float64" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(134): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\Gauss_math.h(145): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
   Создание кода
-  2 of 455 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  2 of 621 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   CurvesMath.vcxproj -> D:\Work Roman\lofi_codes\CurvesMath\Release\CurvesMath.exe

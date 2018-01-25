@@ -108,6 +108,14 @@ void method_Gauss_SLAU(Matrix<T> &A, Matrix<T> &B, Matrix<T> &X)
 	//*********direct order********//
 	const size_t m = A.m;
 	const size_t n = A.n;
+	vector<size_t> index;
+	for (size_t j = 0; j < n; j++)
+	{
+		float32 sum = 0;
+		for (size_t i = 0; i < m; i++)	sum += A(i, j);
+		if (EQUAL(sum,0.0)==0)	index.push_back(j);
+	}
+	for (auto& i : index)	X(i, 0) = INF;
 	for (size_t k = 0; k < m - 1; k++)
 	{
 		size_t i_max = find_max_of_column(A, k, k);
@@ -118,9 +126,12 @@ void method_Gauss_SLAU(Matrix<T> &A, Matrix<T> &B, Matrix<T> &X)
 			float64 mu = A(i, k) / A(k, k);
 			for (size_t j = 0; j < n; j++)
 			{
+				for (auto& ii : index)	if (j == ii)	j++;
 				A(i,j) = A(i,j) - mu*A(k,j);
+				A(i,j) = EQUAL(A(i, j), 0.0);
 			}
 			B(i,0) = B(i,0) - mu*B(k,0);
+			B(i,0) = EQUAL(B(i, 0), 0.0);
 		}
 	}
 	//*********direct order********//
@@ -128,9 +139,13 @@ void method_Gauss_SLAU(Matrix<T> &A, Matrix<T> &B, Matrix<T> &X)
 	X(m - 1, 0) = B(m - 1, 0) / A(m - 1, n - 1);
 	for (int i = m - 2; i >= 0; i--)
 	{
+		for (auto& ii : index)	if (i == ii)	i--;
 		T summ = advanced_summ_of_row(A, X, i);
 		X(i,0) = (B(i,0) - summ) / A(i,i);
+		X(i,0) = EQUAL(X(i, 0), 0.0);
 	}
+
 	//*********reverse order********//
 }
+
 //********для своего класса матриц********//

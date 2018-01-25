@@ -39,7 +39,7 @@ public:
 			delta_plus[i] = delta_plus[i] + h;
 			delta_minus[i] = delta_minus[i] - h;
 			T a = (f(delta_plus) - f(delta_minus)) / (2 * h);
-			result(i, 0) = a;
+			result(i, 0) = EQUAL(a, 0.0);
 		}
 		return result;
 	}
@@ -77,7 +77,7 @@ public:
 				delta_plus[j] = delta_plus[j] + h;
 				delta_minus[j] = delta_minus[j] - h;
 				T a = (fp(delta_plus)(i,0) - fp(delta_minus)(i,0)) / (2 * h);
-				result(i, j) = a;
+				result(i, j) = EQUAL(a,0.0);
 			}
 		return result;
 	}
