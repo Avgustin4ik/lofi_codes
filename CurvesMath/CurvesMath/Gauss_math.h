@@ -109,24 +109,28 @@ void method_Gauss_SLAU(Matrix<T> &A, Matrix<T> &B, Matrix<T> &X)
 	const size_t m = A.m;
 	const size_t n = A.n;
 	vector<size_t> index;
-	for (size_t j = 0; j < n; j++)
+	if (EQUAL(A.determinant(), 0.0) == 0.0)
 	{
-		float32 sum = 0;
-		for (size_t i = 0; i < m; i++)	sum += A(i, j);
-		if (EQUAL(sum,0.0)==0)	index.push_back(j);
+		for (size_t i = 0; i < n; i++)
+		{
+			float32 sum = 0;
+			for (size_t j = 0; j < m; j++)	sum += A(i, j);
+			if (EQUAL(sum, 0.0) == 0)	index.push_back(i);
+		}
+		for (auto& i : index)	X(i, 0) = INF;
 	}
-	for (auto& i : index)	X(i, 0) = INF;
 	for (size_t k = 0; k < m - 1; k++)
 	{
+		for (auto& ii : index)	if (k == ii)  k++;
 		size_t i_max = find_max_of_column(A, k, k);
 		A.swap_rows(i_max, k);
 		B.swap_rows(i_max, k);
 		for (size_t i = k + 1; i < m; i++)
 		{
+			for (auto& ii : index)	if (i == ii)  i++;
 			float64 mu = A(i, k) / A(k, k);
 			for (size_t j = 0; j < n; j++)
 			{
-				for (auto& ii : index)	if (j == ii)	j++;
 				A(i,j) = A(i,j) - mu*A(k,j);
 				A(i,j) = EQUAL(A(i, j), 0.0);
 			}

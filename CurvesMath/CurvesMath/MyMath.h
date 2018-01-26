@@ -191,8 +191,9 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	f.recompute(variables);
 	auto f_v = f(variables);
 	size_t size = variables.size();
-	auto g(df(variables));
-	auto G(ddf(variables));
+	Matrix<T> g(df(variables));
+	Matrix<T> G(ddf(variables));
+	
 	g = g * -1;
 	method_Gauss_SLAU(G, g, p);
 	for (size_t i = 0; i < p.m; i++)
@@ -225,17 +226,17 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	plt::pause(0.5);
 #endif
 	vector<T> xx, yy;
-	while (fabs(f(variables_new)) > 1e-5)
+	while (fabs(f(variables_new)) > 1e-4)
 	//while (powf((f.getBezierPoint(variables_new).x - f.point.x), 2) + powf((f.getBezierPoint(variables_new).y - f.point.y), 2) > 1e-5)
 	{
-		T &x1n = variables_new[0];
-		T &x2n = variables_new[1];
+		T x1n = variables_new[0];
+		T x2n = variables_new[1];
 		size = variables.size();
 		Matrix<T> p(size, 1);
 		vector<Vertex2D<T>> &PP = f.curve.PPoints;
 		i++;
 		int m = f.curve.PPoints.size()-1;
-		if (i > (m-2)*40) { 
+		if (i > (m-2)*50) { 
 			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables);
@@ -257,9 +258,11 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 			variables_new.resize(size + 2);
 			norm = false;
 		}
-		if (((x1n) <= 0.1) || ((x2n) <= 0.1)) {
+		if ((powf(x1n,2) <= 0.001) || (powf(x2n,2) <= 0.001)) {
+			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables);
+			initial_data = variables;
 			initial_data = variables;
 			p = Matrix<T>(variables.size(), 1);
 			step = 0;
@@ -271,10 +274,26 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 		if (norm) variables = variables_new;
 		norm = true;
 		if (step > (m - 2) * 30) alpha = 1;
-		auto g(df(variables));
-		auto G(ddf(variables));
+		Matrix<T> g(df(variables));
+		Matrix<T> G(ddf(variables));
+		if (EQUAL(G.determinant(), 0.0) == 0)
+		{
+			/*variables = initial_data;
+			f.recompute(variables);
+			f.add_PPoint(variables);
+			initial_data = variables;
+			p = Matrix<T>(variables.size(), 1);
+			step = 0;
+			alpha = _config.alpha;
+			variables_new.resize(size + 2);
+			norm = false;
+			g =  df(variables);
+			G = ddf(variables));*/
+		}
 		g = g * -1;
+		//p = _G * g;
 		method_Gauss_SLAU(G, g, p);
+		
 		for (size_t i = 0; i < p.m; i++)
 		{
 			variables_new[i] = variables[i] + alpha * p(i, 0);
