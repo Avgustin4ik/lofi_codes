@@ -88,18 +88,13 @@ public:
 		if (temp.x > 0 | temp.y < 0)	temp.reverse();
 		P2 = ppoints[last] + temp*powf(x2, 2);
 		if (variables.size() > 2)
-			//for (size_t i = 2; i < variables.size()-1; i+=2)
-			//{
-			//	//ppoints[i] = assist_curve.getPoint(variables[i]) + tangent_vectors[i - 2] * powf(variables[i+1], 2);
-			//	//ppoints[i] = assist_curve.getPoint(variables[i]) + Vector2D<float32>(0.0, 1.0) * powf(variables[i + 1], 2);
-			//	ppoints[i] = Vertex2D<T>(powf(variables[i], 2), powf(variables[i + 1], 2));
-			//}
-		for (size_t i = 2; i < ppoints.size() - 2; i++)
 		{
-			int j = 0;
-			if (i % 2 == 0) j = i;
-			else j = i + 1;
-			ppoints[i] = Vertex2D<T>(powf(variables[j], 2), powf(variables[j + 1], 2));
+			size_t j = 2;
+			for (size_t i = 2; i < variables.size() - 1; i += 2)
+			{
+				ppoints[j] = Vertex2D<T>(powf(variables[i], 2), powf(variables[i + 1], 2));
+				j++;
+			}
 		}
 		auto tt = curve.find_nearest(point);
 		dt = curve.dt(tt);
@@ -123,13 +118,15 @@ public:
 		if (temp.x > 0 | temp.y < 0)	temp.reverse();
 		P2 = ppoints[last] + temp*powf(x2, 2);
 		if (variables.size() > 2)
-			for (size_t i = 2; i < ppoints.size()-2; i++)
+		{
+			size_t j = 2;
+			for (size_t i = 2; i < variables.size() - 1; i += 2)
 			{
-				int j = 0;
-				if (i % 2 == 0) j = i;
-				else j = i+1;
-				ppoints[i] = Vertex2D<T>(powf(variables[j], 2), powf(variables[j + 1], 2));
+				ppoints[j] = Vertex2D<T>(powf(variables[i], 2), powf(variables[i + 1], 2));
+				j++;
 			}
+		}
+			
 		t = curve.find_nearest(point);
 		dt = curve.dt(t);
 	}
@@ -174,7 +171,7 @@ public:
 	T operator () (const vector<T>& variables)
 	{
 		Vertex2D<T> A = getBezierPoint(variables);
-		auto B = powf((A.x - point.x), 2) + powf((A.y - point.y), 2)+ powf(dt.y  - dt.x * tanf(betta*PI/180.0),2);
+		auto B = powf((A.x - point.x), 2) + powf((A.y - point.y), 2) + powf(dt.y - dt.x * tanf(betta*PI / 180.0), 2);
 		return (B);
 	}
 

@@ -103,21 +103,15 @@ template<typename T>
 inline Matrix<T>::Matrix()
 	:m(4), n(4)
 {
+	mtrx.reserve(m*n);
 	for (size_t i = 0; i < m; i++)
 	{
 		for (size_t j = 0; j < n; j++)
 		{
-			mtrx.push_back(0);
+			mtrx.emplace_back(0.0);
 		}
 	}
 }
-
-//template<typename T>
-//inline Matrix<T>::Matrix(Matrix<T> _Mtrx)
-//	:m(_Mtrx.m), n(_Mtrx.n), mtrx(_Mtrx.mtrx)
-//{
-//}
-
 
 template<typename T>
 inline Matrix<T>::Matrix(Matrix<T>&  _Mtrx)
@@ -133,7 +127,7 @@ inline Matrix<T>::Matrix(const std::vector<std::vector<T>>& matr):m(matr.size())
 	{
 		for (int j = 0; j < n; j++)
 		{
-			mtrx.push_back(matr[i].at(j));
+			mtrx.emplace_back(matr[i].at(j));
 		}
 	}
 
@@ -156,11 +150,12 @@ template<typename T>
 inline Matrix<T>::Matrix(const size_t &NumberOfRows, const size_t &NumberOfColumns)
 	: m(NumberOfRows), n(NumberOfColumns)
 {
+	mtrx.reserve(m*n);
 	for (size_t i = 0; i < m; i++)
 	{
 		for (size_t j = 0; j < n; j++)
 		{
-			mtrx.push_back(0.0);
+			mtrx.emplace_back(0.0);
 		}
 	}
 }
@@ -175,25 +170,6 @@ inline Matrix<T> Matrix<T>::MakeIdentity(size_t Size)
 	}
 	return m;
 }
-
-
-//template<typename T>
-//inline Matrix<T>::Matrix(bool IdentityMatrix, size_t Size)
-//	: m(Size), n(Size)
-//{
-//	for (size_t i = 0; i < m; i++)
-//	{
-//		for (size_t j = 0; j < n; j++)
-//		{
-//			if ((IdentityMatrix)&&(i==j))
-//			{
-//				mtrx.push_back(1);
-//			}
-//			else mtrx.push_back(0);
-//		}
-//	}
-//}
-
 
 
 template<typename T>
@@ -211,6 +187,7 @@ inline Matrix<T> Matrix<T>::operator+(const Matrix<T> &_Var)
 	Matrix<T> Result;
 	Result.m = _Var.m;
 	Result.n = _Var.n;
+	Result.mtrx.reserve(m*n);
 	if ((_Var.m != m) || (_Var.n != n))	return Matrix<T>();
 	else
 	{
@@ -248,12 +225,11 @@ inline Matrix<T> Matrix<T>::operator*(const Matrix<T> &_Var)
 		{
 			for (size_t j = 0; j < Result.n; j++)
 			{
-				Result(i, j) = 0;			//если конструктор (_M,_N) будет создавать нулевые матрицы, то можно будет убрать эту строку. 
 				for (size_t k = 0; k < n; k++)
 				{
 					Result(i, j) += (*this)(i, k)*_Var(k, j);
-					Result(i, j) = EQUAL(Result(i, j), 1);
-					Result(i, j) = EQUAL(Result(i, j), 0);
+					Result(i, j) = EQUAL(Result(i, j), 1.0);
+					Result(i, j) = EQUAL(Result(i, j), 0.0);
 				}
 			}
 		}
@@ -309,7 +285,6 @@ inline float Matrix<T>::determinant()
 			} while (temp(i,0)==0);
 			size_t first_row = 0;
 			temp.swap_rows(first_row, i);	//Меняем местами первую строку с i-ой, чтобы первый элемент был ненулевой.
-		//	temp.Print();
 			change_sign *= -1;
 		}
 		
@@ -318,7 +293,6 @@ inline float Matrix<T>::determinant()
 		{
 			result *= temp(0, 0);
 			temp.simple_converting();
-		//	temp.Print();
 			if (temp(0, 0) == 0)
 			{
 				size_t i = 0;
@@ -329,7 +303,6 @@ inline float Matrix<T>::determinant()
 				} while (temp(i, 0) == 0);
 				size_t first_row = 0;
 				temp.swap_rows(first_row, i);	//Меняем местами первую строку с i-ой, чтобы первый элемент был ненулевой.
-		//		temp.Print();
 				change_sign *= -1;
 			}
 		}

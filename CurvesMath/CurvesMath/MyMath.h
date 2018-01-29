@@ -68,8 +68,8 @@ public:
 	{
 		size_t size = var.size();
 		Matrix<T> result(size, size);
-		for (size_t i = 0; i < size; i++)
-			for (size_t j = 0; j < size; j++)
+		for (size_t j = 0; j < size; j++)
+			for (size_t i = 0; i < size; i++)
 			{
 				size_t index = i*size + j;
 				vector<T> delta_plus(var);
@@ -139,17 +139,6 @@ public:
 	}
 private:
 };
-
-template <typename T>
-
-void slau(T values[2][3], T& x1, T& x2)
-{
-	T delta = values[0][0] * values[1][1] - values[1][0] * values[0][1];
-	T delta_x1 = values[1][1] * values[0][2] - values[0][1] * values[1][2];
-	T delta_x2 = values[0][0] * values[1][2] - values[1][0] * values[0][2];
-	x1 = delta_x1 / delta;
-	x2 = delta_x2 / delta;
-}
 
 template<typename F, typename T>
 
@@ -226,7 +215,7 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	plt::pause(0.5);
 #endif
 	vector<T> xx, yy;
-	while (fabs(f(variables_new)) > 1e-4)
+	while (fabs(f(variables_new)) > 1e-3)
 	//while (powf((f.getBezierPoint(variables_new).x - f.point.x), 2) + powf((f.getBezierPoint(variables_new).y - f.point.y), 2) > 1e-5)
 	{
 		T x1n = variables_new[0];
@@ -263,7 +252,6 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 			f.recompute(variables);
 			f.add_PPoint(variables);
 			initial_data = variables;
-			initial_data = variables;
 			p = Matrix<T>(variables.size(), 1);
 			step = 0;
 			alpha = _config.alpha;
@@ -276,24 +264,9 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 		if (step > (m - 2) * 30) alpha = 1;
 		Matrix<T> g(df(variables));
 		Matrix<T> G(ddf(variables));
-		if (EQUAL(G.determinant(), 0.0) == 0)
-		{
-			/*variables = initial_data;
-			f.recompute(variables);
-			f.add_PPoint(variables);
-			initial_data = variables;
-			p = Matrix<T>(variables.size(), 1);
-			step = 0;
-			alpha = _config.alpha;
-			variables_new.resize(size + 2);
-			norm = false;
-			g =  df(variables);
-			G = ddf(variables));*/
-		}
+		matrixScaling(G, g);
 		g = g * -1;
-		//p = _G * g;
 		method_Gauss_SLAU(G, g, p);
-		
 		for (size_t i = 0; i < p.m; i++)
 		{
 			variables_new[i] = variables[i] + alpha * p(i, 0);
@@ -417,7 +390,7 @@ void method_bisection(F& f, vector<T> &variables, const T left_border, const T r
 	xn = (a + b) / 2;
 	auto fx = f(variables);
 	auto fxn = f(new_variables);
-	while (fabsf(f(new_variables) - f(variables)) > (1e-8))
+	while (fabsf(f(new_variables) - f(variables)) > (1e-4))
 	{
 		x = xn;
 		dfx = df(new_variables, 0);
