@@ -44,7 +44,7 @@ public:
 	Matrix<T> operator * (const T &_Value);			//умножение на число
 	Matrix<T> operator * (const Matrix<T> &_Var);	//векторное умножение
 	Matrix<T> operator *= (const Matrix<T> &_Var);	//поэлементное умножение
-
+	Matrix<T> operator - (const Matrix<T> &_Var);
 	//***********************
 	Matrix<T> transpose();
 	float determinant();
@@ -251,6 +251,21 @@ inline Matrix<T> Matrix<T>::operator *= (const Matrix<T> &_Var)
 		return Result;
 	}
 	
+}
+
+template<typename T>
+inline Matrix<T> Matrix<T>::operator-(const Matrix<T>& _Var)
+{
+	Matrix<T> result(_Var.m, _Var.n);
+
+	for (size_t i = 0; i < result.m; i++)
+	{
+		for (size_t j = 0; j < result.n; j++)
+		{
+			result(i, j) = (*this)(i,j) - _Var(i, j);
+		}
+	}
+	return result;
 }
 
 template<typename T>

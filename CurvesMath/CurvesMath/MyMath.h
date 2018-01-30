@@ -145,7 +145,7 @@ template<typename F, typename T>
 void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, Configuration _config )
 {
 	vector<T> initial_data(variables);
-	vector<T> npx, npy, fx, fy, dfx, dfy;
+	vector<T> npx, npy, fx, fy, dfx, dfy, ax, ay;
 	vector<float32>  x;
 	vector<float32>  y;
 	x.push_back(f.point.x);
@@ -185,6 +185,16 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	
 	g = g * -1;
 	method_Gauss_SLAU(G, g, p);
+
+	vector<T> p_vec;
+	p_vec.reserve(p.m);
+	vector<T> alpha_vec(1, -1);
+	for (size_t i = 0; i < p.m; i++)
+		p_vec.emplace_back(p(i, 0));
+	obj_function_alpha<T> f_alpha(f, variables, p_vec);
+	method_bisection(f_alpha, alpha_vec, LEFT_BORDER, RIGHT_BORDER);
+	alpha = alpha_vec[0];
+
 	for (size_t i = 0; i < p.m; i++)
 	{
 		size_t j = 0;
@@ -194,7 +204,7 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	f.recompute(variables_new);
 	int i = 1;
 	int step = 0;
-	Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear();
+	Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); ax.clear(); ay.clear();
 	bool norm(true);
 #ifndef _DEBUG
 	plt::clf();
@@ -215,7 +225,7 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	plt::pause(0.5);
 #endif
 	vector<T> xx, yy;
-	while (fabs(f(variables_new)) > 1e-3)
+	while (fabs(f(variables_new)) > 1e-5)
 	//while (powf((f.getBezierPoint(variables_new).x - f.point.x), 2) + powf((f.getBezierPoint(variables_new).y - f.point.y), 2) > 1e-5)
 	{
 		T x1n = variables_new[0];
@@ -261,12 +271,22 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 		step++;
 		if (norm) variables = variables_new;
 		norm = true;
-		if (step > (m - 2) * 30) alpha = 1;
+		//if (step > (m - 2) * 30) alpha = 1;
 		Matrix<T> g(df(variables));
 		Matrix<T> G(ddf(variables));
 		matrixScaling(G, g);
 		g = g * -1;
 		method_Gauss_SLAU(G, g, p);
+
+		vector<T> p_vec;
+		p_vec.reserve(p.m);
+		vector<T> alpha_vec(1, -1);
+		for (size_t i = 0; i < p.m; i++)
+			p_vec.emplace_back(p(i, 0));
+		obj_function_alpha<T> f_alpha(f, variables, p_vec);
+		method_bisection(f_alpha, alpha_vec, LEFT_BORDER, RIGHT_BORDER);
+		alpha = alpha_vec[0];
+
 		for (size_t i = 0; i < p.m; i++)
 		{
 			variables_new[i] = variables[i] + alpha * p(i, 0);
@@ -278,7 +298,7 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear(); dfx.clear(); dfy.clear();
 #ifndef _DEBUG
 		plt::clf();
-		plt::subplot(2, 3, 1);
+		plt::subplot(2, 4, 1);
 		for (auto i = 0; i < 101; i++) {
 			auto z = float(i) / float(100);
 			auto P = f.curve.getPoint(z);
@@ -298,11 +318,11 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 		plt::plot(Pnx, Pny, "x--r");
 		plt::plot(Bnx, Bny);
 
-		plt::subplot(2, 3, 2);
+		plt::subplot(2, 4, 2);
 		plt::plot(fx, fy);
 		plt::grid(true);
 		
-		plt::subplot(2, 3, 3);
+		plt::subplot(2, 4, 3);
 		plt::grid(true);
 		plt::axis("equal");
 		auto c = f.curve;
@@ -312,7 +332,17 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 		dfy.push_back(c.dt(c.find_nearest(f.point)).y);
 		plt::plot(dfx, dfy);
 		plt::grid(true);
-		plt::axis("equal");
+
+		plt::subplot(2, 4, 4);
+		plt::ylim(0, 1);
+		plt::ylabel("alpha");
+		ax.push_back(i);
+		ay.push_back(alpha);
+		
+		plt::plot(ax, ay);
+		plt::grid(true);
+
+		//plt::axis("equal");
 		plt::pause(0.001);
 #endif
 	}

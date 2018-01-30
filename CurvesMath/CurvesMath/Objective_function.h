@@ -177,3 +177,54 @@ public:
 
 };
 
+template<typename T>
+class obj_function_alpha
+{
+public:
+	obj_function_alpha() {};
+	~obj_function_alpha() {};
+	//obj_function_alpha(const objective_function_tangent<T> &_f,const vector<T>& _var, const vector<T> &_p);
+	obj_function_alpha(objective_function_tangent<T>& _f, vector<T>& _var, vector<T>& _p) :f(_f), var(_var), p(_p) {}
+	T operator()(vector<T>& alpha)
+	{
+		vector<T> variables;
+		variables.reserve(var.size());
+		for (size_t i = 0; i < var.size(); i++)
+		{
+			variables.emplace_back(var[i] + alpha[0] * p[i]);
+		}
+
+		return f(variables);
+	}
+private:
+	const vector<T> &var, &p;
+	objective_function_tangent<T> &f;
+	T operator () (const vector<T>& alpha);
+};
+//template<typename T>
+//obj_function_alpha::obj_function_alpha()
+//{
+//}
+//template<typename T>
+//obj_function_alpha::~obj_function_alpha()
+//{
+//}
+//
+//template<typename T>
+//inline obj_function_alpha<T>::obj_function_alpha(objective_function_tangent<T>& _f, vector<T>& _var, vector<T>& _p)
+//	:f(_f), var(_var), p(_p)
+//{
+//}
+//
+//template<typename T>
+//inline T obj_function_alpha<T>::operator()(vector<T>& alpha)
+//{
+//	vector<T> variables;
+//	variables.reserve(alpha.size());
+//	for (size_t i = 0; i < alpha.size(), i++)
+//	{
+//		variables.emplace_back(var[i] + alpha[i] * p[i]);
+//	}
+//	return f(variables);
+//}
+

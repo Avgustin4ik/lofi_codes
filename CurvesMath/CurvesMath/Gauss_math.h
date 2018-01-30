@@ -75,6 +75,10 @@ void method_Gauss_SLAU(T(&A)[M][N], T(&B)[M][1], T(&X)[M][1])
 	//*********reverse order********
 }
 
+
+
+
+
 //********для своего класса матриц********//
 template <typename T>
 size_t find_max_of_column(Matrix<T> &A, const size_t &_j, const size_t &i_top)
@@ -150,6 +154,11 @@ void method_Gauss_SLAU(Matrix<T> &A, Matrix<T> &B, Matrix<T> &X)
 	}
 
 	//*********reverse order********//
+}
+template <typename T>
+void method_Gauss_fs_SLAU(Matrix<T> &A, Matrix<T> &B, Matrix<T>&X)
+{
+
 }
 
 //********для своего класса матриц********//
