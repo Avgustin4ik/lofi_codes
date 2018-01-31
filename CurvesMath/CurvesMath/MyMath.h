@@ -107,42 +107,8 @@ private:
 	F& f;
 }; 
 
-template <typename T>
-
-class function
-{
-public:
-	function() {};
-	~function() {};
-
-	T operator () (const vector<T> var_arr) const
-	{
-		T x1(var_arr[0]), x2(var_arr[1]);
-		return (x1*x1 + 10*powf(x2 - sinf(x1),2));
-	}
-private:
-};
-
-template <typename T>
-
-class temp_function
-{
-public:
-	temp_function() {};
-	~temp_function() {};
-
-	T operator () (const vector<T> var_arr) const
-	{
-		T x1(var_arr[0]);
-		float32 e = 2.71828;
-		return (x1*x1*5+x1*3);
-	}
-private:
-};
-
 template<typename F, typename T>
-
-void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, Configuration _config )
+void minimization_Newthon(objective_function_tangent<T>& f,vector<T>& variables, Configuration _config )
 {
 	vector<T> initial_data(variables);
 	vector<T> npx, npy, fx, fy, dfx, dfy, ax, ay;
@@ -151,7 +117,7 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	x.push_back(f.point.x);
 	y.push_back(f.point.y);
 	T h = _config.h;
-	float32 alpha = _config.alpha;
+	vector<float32> alpha(1, _config.alpha);
 	bool isSolutionNotReached = false;
 	derivarive<F, T> df(f,h);
 	second_derivative<F, T> ddf(f, h);
@@ -182,28 +148,25 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	size_t size = variables.size();
 	Matrix<T> g(df(variables));
 	Matrix<T> G(ddf(variables));
-	
+	matrixScaling(G, g);
 	g = g * -1;
 	method_Gauss_SLAU(G, g, p);
 
 	vector<T> p_vec;
 	p_vec.reserve(p.m);
-	vector<T> alpha_vec(1, -1);
 	for (size_t i = 0; i < p.m; i++)
 		p_vec.emplace_back(p(i, 0));
 	obj_function_alpha<T> f_alpha(f, variables, p_vec);
-	method_bisection(f_alpha, alpha_vec, LEFT_BORDER, RIGHT_BORDER);
-	alpha = alpha_vec[0];
+	method_bisection(f_alpha, alpha, LEFT_BORDER, RIGHT_BORDER);
 
 	for (size_t i = 0; i < p.m; i++)
 	{
 		size_t j = 0;
-		variables_new[i] = variables[i] + alpha * p(i, j);
+		variables_new[i] = variables[i] + alpha[0] * p(i, j);
 	}
 	auto f_vn = f(variables_new);
 	f.recompute(variables_new);
 	int i = 1;
-	int step = 0;
 	Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); ax.clear(); ay.clear();
 	bool norm(true);
 #ifndef _DEBUG
@@ -225,11 +188,9 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 	plt::pause(0.5);
 #endif
 	vector<T> xx, yy;
-	while (fabs(f(variables_new)) > 1e-5)
+	while (fabs(f(variables_new)) > 1e-3)
 	//while (powf((f.getBezierPoint(variables_new).x - f.point.x), 2) + powf((f.getBezierPoint(variables_new).y - f.point.y), 2) > 1e-5)
 	{
-		T x1n = variables_new[0];
-		T x2n = variables_new[1];
 		size = variables.size();
 		Matrix<T> p(size, 1);
 		vector<Vertex2D<T>> &PP = f.curve.PPoints;
@@ -241,9 +202,7 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 			f.add_PPoint(variables);
 			initial_data = variables;
 			p = Matrix<T>(variables.size(), 1);
-			step = 0;
-			alpha = _config.alpha;
-			variables_new.resize(size + 2);
+			variables_new.resize(variables.size());
 			norm = false;
 		}
 		if (i == _config.iterations_limit) { isSolutionNotReached = true; break; }
@@ -252,44 +211,36 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 			f.add_PPoint(variables);
 			initial_data = variables;
 			p = Matrix<T>(variables.size(), 1);
-			step = 0;
-			alpha = _config.alpha;
-			variables_new.resize(size + 2);
+			variables_new.resize(variables.size());
 			norm = false;
 		}
-		if ((powf(x1n,2) <= 0.001) || (powf(x2n,2) <= 0.001)) {
+		if ((powf(variables_new[0],2) <= 0.001) || (powf(variables_new[1],2) <= 0.001)) {
 			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables);
 			initial_data = variables;
 			p = Matrix<T>(variables.size(), 1);
-			step = 0;
-			alpha = _config.alpha;
-			variables_new.resize(size + 2);
+			variables_new.resize(variables.size());
 			norm = false;
 		} 
-		step++;
 		if (norm) variables = variables_new;
 		norm = true;
-		//if (step > (m - 2) * 30) alpha = 1;
 		Matrix<T> g(df(variables));
 		Matrix<T> G(ddf(variables));
 		matrixScaling(G, g);
 		g = g * -1;
 		method_Gauss_SLAU(G, g, p);
 
-		vector<T> p_vec;
+		p_vec.clear();
 		p_vec.reserve(p.m);
-		vector<T> alpha_vec(1, -1);
 		for (size_t i = 0; i < p.m; i++)
 			p_vec.emplace_back(p(i, 0));
 		obj_function_alpha<T> f_alpha(f, variables, p_vec);
-		method_bisection(f_alpha, alpha_vec, LEFT_BORDER, RIGHT_BORDER);
-		alpha = alpha_vec[0];
+		method_bisection(f_alpha, alpha, LEFT_BORDER, RIGHT_BORDER);
 
 		for (size_t i = 0; i < p.m; i++)
 		{
-			variables_new[i] = variables[i] + alpha * p(i, 0);
+			variables_new[i] = variables[i] + alpha[0] * p(i, 0);
 		}
 		f_vn = f(variables_new);
 		f.recompute(variables_new);
@@ -337,7 +288,7 @@ void newton_minimization(objective_function_tangent<T>& f,vector<T>& variables, 
 		plt::ylim(0, 1);
 		plt::ylabel("alpha");
 		ax.push_back(i);
-		ay.push_back(alpha);
+		ay.push_back(alpha[0]);
 		
 		plt::plot(ax, ay);
 		plt::grid(true);
@@ -370,7 +321,7 @@ private:
 	Vertex2D<T> point;
 };
 template <typename F, typename T>
-void newton_minimization_simple(F& f, vector<T> &variables, const T left_border, const T right_border)
+void minimization_NewthonSimple(F& f, vector<T> &variables, const T left_border, const T right_border)
 {
 	float32 h(0.01);
 	using d_f = derivarive<F, T>;
@@ -516,5 +467,18 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 	x = xn;
 	variables[1] = x;
 }
+template <typename F, typename T>
+void minimization_CoordinateDescent(F& f, vector<T> &variables, Configuration _config)
+{
+	derivarive<F, T> df(f, _config.h);
+	vector<T> one_variable(1,-1);
+	size_t index = 0;
+	for (auto &i : variables)
+	{
+		one_variable[0] = i;
+		method_bisection<F, T>(f, one_variable, LEFT_BORDER, RIGHT_BORDER);
+		i = one_variable[0];
+	}
 
+}
 

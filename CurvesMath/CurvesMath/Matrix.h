@@ -15,7 +15,7 @@ protected:
 	
 
 public:
-	std::vector<T> mtrx;
+	std::vector<T> data;
 	size_t m, n;
 
 	void swap_rows(const size_t &First, const size_t &Second);
@@ -26,8 +26,8 @@ public:
 	//констуркторы
 
 	Matrix();
-	/*Matrix(Matrix<T> _Mtrx);*/
-	Matrix(Matrix<T>& _Mtrx);
+	/*Matrix(Matrix<T> _data);*/
+	Matrix(Matrix<T>& _data);
 	Matrix(const std::vector<std::vector<T>> &matr);
 	Matrix(T *A,const size_t _m, const size_t _n);
 	Matrix(const size_t &NumberOfRows,const size_t &NumberOfColumns);
@@ -39,7 +39,7 @@ public:
 
 	T& operator () (const size_t &_M, const size_t &_N);
 	const T& operator () (const size_t &_M,const size_t &_N) const;
-	Matrix<T> operator = (const Matrix<T> &_Mtrx);
+	Matrix<T> operator = (const Matrix<T> &_data);
 	Matrix<T> operator + (const Matrix<T> &_Var);
 	Matrix<T> operator * (const T &_Value);			//умножение на число
 	Matrix<T> operator * (const Matrix<T> &_Var);	//векторное умножение
@@ -49,6 +49,7 @@ public:
 	Matrix<T> transpose();
 	float determinant();
 	Matrix<T> invers();
+	Matrix<T> augment(const Matrix<T> &B);
 	//***********************
 };
 template<typename T>
@@ -76,13 +77,13 @@ inline void Matrix<T>::simple_converting()
 	}
 	for (size_t i = 0; i < m; i++)
 	{
-		this->mtrx.erase(mtrx.begin());
+		this->data.erase(data.begin());
 	}
 	m--;
 	n--;
 	for (size_t i = 0; i < m; i++)
 	{
-		this->mtrx.erase(mtrx.begin() + i*m);
+		this->data.erase(data.begin() + i*m);
 	}
 }
 //вывод матрицы. потом удалить
@@ -93,7 +94,7 @@ inline void Matrix<T>::Print()
 	{
 		cout << "\n ";
 		for (size_t j = 0; j < n; j++)
-			cout << mtrx[i*n + j] << " ";
+			cout << data[i*n + j] << " ";
 	}
 	cout << endl;
 }
@@ -103,31 +104,31 @@ template<typename T>
 inline Matrix<T>::Matrix()
 	:m(4), n(4)
 {
-	mtrx.reserve(m*n);
+	data.reserve(m*n);
 	for (size_t i = 0; i < m; i++)
 	{
 		for (size_t j = 0; j < n; j++)
 		{
-			mtrx.emplace_back(0.0);
+			data.emplace_back(0.0);
 		}
 	}
 }
 
 template<typename T>
-inline Matrix<T>::Matrix(Matrix<T>&  _Mtrx)
-	:m(_Mtrx.m),n(_Mtrx.n),mtrx(_Mtrx.mtrx)
+inline Matrix<T>::Matrix(Matrix<T>&  _data)
+	:m(_data.m),n(_data.n),data(_data.data)
 {
 }
 
 template<typename T>
 inline Matrix<T>::Matrix(const std::vector<std::vector<T>>& matr):m(matr.size()),n(matr[0].size())
 {
-	mtrx.reserve(m*n);
+	data.reserve(m*n);
 	for (int i = 0; i < m; i++)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			mtrx.emplace_back(matr[i].at(j));
+			data.emplace_back(matr[i].at(j));
 		}
 	}
 
@@ -150,12 +151,12 @@ template<typename T>
 inline Matrix<T>::Matrix(const size_t &NumberOfRows, const size_t &NumberOfColumns)
 	: m(NumberOfRows), n(NumberOfColumns)
 {
-	mtrx.reserve(m*n);
+	data.reserve(m*n);
 	for (size_t i = 0; i < m; i++)
 	{
 		for (size_t j = 0; j < n; j++)
 		{
-			mtrx.emplace_back(0.0);
+			data.emplace_back(0.0);
 		}
 	}
 }
@@ -173,11 +174,11 @@ inline Matrix<T> Matrix<T>::MakeIdentity(size_t Size)
 
 
 template<typename T>
-inline Matrix<T> Matrix<T>::operator=(const Matrix<T> &_Mtrx)
+inline Matrix<T> Matrix<T>::operator=(const Matrix<T> &_data)
 {
-	m = _Mtrx.m;
-	n = _Mtrx.n;
-	mtrx = _Mtrx.mtrx;
+	m = _data.m;
+	n = _data.n;
+	data = _data.data;
 	return *this;
 }
 
@@ -187,15 +188,15 @@ inline Matrix<T> Matrix<T>::operator+(const Matrix<T> &_Var)
 	Matrix<T> Result;
 	Result.m = _Var.m;
 	Result.n = _Var.n;
-	Result.mtrx.reserve(m*n);
+	Result.data.reserve(m*n);
 	if ((_Var.m != m) || (_Var.n != n))	return Matrix<T>();
 	else
 	{
 		size_t index;
-		for (auto Iter = _Var.mtrx.begin(); Iter != _Var.mtrx.end(); Iter++)
+		for (auto Iter = _Var.data.begin(); Iter != _Var.data.end(); Iter++)
 		{
-			index = Iter - _Var.mtrx.begin();
-			Result.mtrx.at(index) = mtrx.at(index) + _Var.mtrx.at(index);
+			index = Iter - _Var.data.begin();
+			Result.data.at(index) = data.at(index) + _Var.data.at(index);
 		}
 		return Result;
 	}
@@ -206,10 +207,10 @@ inline Matrix<T> Matrix<T>::operator*(const T &_Value)
 {
 	Matrix<T> Result(m,n);
 	size_t index;
-	for (auto Iter = mtrx.begin(); Iter != mtrx.end(); Iter++)
+	for (auto Iter = data.begin(); Iter != data.end(); Iter++)
 	{
-		index = Iter - mtrx.begin();
-		Result.mtrx.at(index) = mtrx.at(index) * _Value;
+		index = Iter - data.begin();
+		Result.data.at(index) = data.at(index) * _Value;
 	}
 	return Result;
 }
@@ -377,13 +378,30 @@ inline Matrix<T> Matrix<T>::invers()
 }
 
 template<typename T>
+inline Matrix<T> Matrix<T>::augment(const Matrix<T>& B)
+{
+	if ((m != B.m)) throw(exception());
+	Matrix<T> A(m, B.n + n);
+	A.data.reserve(m*n + B.m * B.n);
+	for (size_t i = 0; i < m; i++)
+	{
+		for (size_t j = 0; j < n + B.n; j++)
+		{
+			if (j >= n) A(i,j) = B(i, j - n);
+			else	A(i,j) = (*this)(i, j);
+		}
+	}
+	return A;
+}
+
+template<typename T>
 inline T& Matrix<T>::operator () (const size_t &_M,const size_t &_N)
 {
-	return mtrx[_M*n + _N];
+	return data[_M*n + _N];
 }
 
 template<typename T>
 inline const T& Matrix<T>::operator () (const size_t &_M,const size_t &_N) const
 {
-	return mtrx[_M*n + _N];
+	return data[_M*n + _N];
 }

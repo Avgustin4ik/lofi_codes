@@ -165,26 +165,26 @@ void method_Gauss_fs_SLAU(Matrix<T> &A, Matrix<T> &B, Matrix<T>&X)
 template <typename T>
 void matrixScaling(Matrix<T> &G, Matrix<T>&g)
 {
-	float32 max = G(0, 0);
-	for (auto &i : G.mtrx)
+	float32 max = fabsf(G(0, 0));
+	for (auto &i : G.data)
 	{
 		if (fabsf(i)>max)
 		{
 			max = i;
 		}
 	}
-	for (auto &i : g.mtrx)
+	for (auto &i : g.data)
 	{
 		if (fabsf(i)>max)
 		{
 			max = i;
 		}
 	}
-	for (auto &i : G.mtrx)
+	for (auto &i : G.data)
 	{
 		i = i / max;
 	}
-	for (auto &i : g.mtrx)
+	for (auto &i : g.data)
 	{
 		i = i / max;
 	}
