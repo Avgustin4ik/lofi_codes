@@ -468,17 +468,128 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 	variables[1] = x;
 }
 template <typename F, typename T>
-void minimization_CoordinateDescent(F& f, vector<T> &variables, Configuration _config)
+
+void method_bisection(obj_functionCoorDescent<T> &f, vector<T> &variables, const T left_border, const T right_border)
 {
-	derivarive<F, T> df(f, _config.h);
-	vector<T> one_variable(1,-1);
-	size_t index = 0;
-	for (auto &i : variables)
+	using d_f = derivarive<obj_functionCoorDescent<T>, T>;
+	T h = 0.001;
+	d_f df(f, h);
+	int index = f.index;
+	T& x = variables[index];
+	T a = left_border;
+	T b = right_border;
+	x = (a + b) / 2;
+	vector<float32> new_variables(variables);
+	new_variables[index] = x;
+	T& xn = new_variables[index];
+	auto dfx = df(new_variables, index);
+	if (dfx < 0)
 	{
-		one_variable[0] = i;
-		method_bisection<F, T>(f, one_variable, LEFT_BORDER, RIGHT_BORDER);
-		i = one_variable[0];
+		a = xn;
 	}
+	else
+	{
+		b = xn;
+	}
+	xn = (a + b) / 2;
+	auto fx = f(variables);
+	auto fxn = f(new_variables);
+	while (fabsf(f(new_variables) - f(variables)) > (1e-4))
+	{
+		x = xn;
+		dfx = df(new_variables, index);
+		if (dfx < 0)
+		{
+			a = xn;
+		}
+		else
+		{
+			b = xn;
+		}
+		xn = (a + b) / 2;
+	}
+	x = xn;
+}
+
+template <typename F, typename T>
+void minimization_CoordinateDescent(objective_function_tangent<T>& f, vector<T> &variables, Configuration _config)
+{
+	vector<float32> Bnx, Bny, Pnx, Pny, fx, fy, npx, npy;
+	vector<float32> x(1, f.point.x), y(1, f.point.y);
+	derivarive<F, T> df(f, _config.h);
+	int index = 0;
+	obj_functionCoorDescent<T> f_obj(f, index);
+	vector<T> initial_data(variables);
+	int iterations(0);
+	bool isSolution = true;
+	vector<Vertex2D<T>> &P = f.curve.PPoints;
+	
+	while (f(variables)>1e-3)
+	{
+		index = 0;
+		iterations++;
+		while (index < variables.size())
+		{
+			method_bisection<obj_functionCoorDescent<float32>, float32>(f_obj, variables, 0, 1);
+			index++;
+		}
+			f.recompute(variables);
+		if (iterations == _config.iterations_limit) { isSolution = false; break; }
+		if ((P[0].x >= P[1].y) || (P[P.size() - 3].x < P[P.size() - 4].x))
+		{
+			variables = initial_data;
+			f.recompute(variables);
+			f.add_PPoint(variables);
+			initial_data = variables;
+		}
+		if ((variables[0] < 0.005) || (variables[variables.size() - 1] < 0.005))
+		{
+			variables = initial_data;
+			f.recompute(variables);
+			f.add_PPoint(variables);
+			initial_data = variables;
+		}
+		if (iterations > (P.size() - 3)*50) 
+		{
+			variables = initial_data;
+			f.recompute(variables);
+			f.add_PPoint(variables);
+			initial_data = variables;
+		}
+		Bnx.clear(); Bny.clear(); Pnx.clear(); Pny.clear(); npx.clear(); npy.clear();
+#ifndef _DEBUG
+		plt::clf();
+		plt::subplot(2, 2, 1);
+		for (auto i = 0; i < 101; i++) {
+			auto z = float(i) / float(100);
+			auto P = f.curve.getPoint(z);
+			Bnx.push_back(P.x);
+			Bny.push_back(P.y);
+		}
+		for (auto &i : f.curve.PPoints) {
+			Pnx.push_back(i.x);
+			Pny.push_back(i.y);
+		}
+		npx.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).x);
+		npy.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).y);
+		plt::plot(npx, npy, "D");
+		plt::grid(true);
+		plt::axis("equal");
+		plt::plot(x, y, "D");
+		plt::plot(Pnx, Pny, "x--r");
+		plt::plot(Bnx, Bny);
+		
+		plt::subplot(2, 2, 2);
+		fx.push_back(iterations); fy.push_back(f(variables));
+		plt::plot(fx, fy);
+		plt::grid(true);
+
+		plt::pause(0.01);
+#endif
+	}
+	
 
 }
+
+
 

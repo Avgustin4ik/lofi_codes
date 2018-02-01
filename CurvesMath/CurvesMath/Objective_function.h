@@ -199,7 +199,25 @@ public:
 private:
 	const vector<T> &var, &p;
 	objective_function_tangent<T> &f;
-	T operator () (const vector<T>& alpha);
 };
 
+template<typename T>
+class obj_functionCoorDescent
+{
+public:
+	int &index;
+	obj_functionCoorDescent() {};
+	~obj_functionCoorDescent() {};
+	obj_functionCoorDescent(objective_function_tangent<T>& _f, int &_index) :f(_f), index(_index) {};
+	T operator () (vector<T> &variables)
+	{
+		return f(variables);
+	}
+	vector<Vertex2D<T>> getOriginalPPoints()
+	{
+		return f.curve.PPoints;
+	}
+private:
+	objective_function_tangent<T> &f;
+};
 

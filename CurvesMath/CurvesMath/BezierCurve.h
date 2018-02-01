@@ -132,7 +132,6 @@ public:
 		}
 		newPPoints.push_back(PPoints.back());
 		PPoints.assign(newPPoints.begin(), newPPoints.end());
-		//PPoints.swap(newPPoints);
 		compute();
 	}
 	const T find_nearest(const Vertex2D<T>& point)
@@ -142,7 +141,6 @@ public:
 		T t = 0.5;
 		variables.push_back(t);
 		method_bisection(f, variables, LEFT_BORDER, RIGHT_BORDER);
-//		newton_minimization_simple(f, variables, LEFT_BORDER, RIGHT_BORDER);
 		t = variables.at(0);
 		return (t);
 	}
