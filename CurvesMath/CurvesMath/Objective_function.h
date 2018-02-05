@@ -1,63 +1,10 @@
 #pragma once
 #include "BezierCurve.h"
-template <typename T>
 
-class objective_function
-{
-public:
-	BezierCurve<T>& curve;
-	Vertex2D<T>& point;
-	T t;
-	objective_function() {};
-	~objective_function() {};
-	objective_function(BezierCurve<T> &_curve) :curve(_curve), point(Vertex2D<T>()),t(0.5) {};
-	objective_function(BezierCurve<T> &_curve, Vertex2D<T>& _point) :curve(_curve), point(_point), t(0.5) { };
-	Vertex2D<T> getBezierPoint(const T& x1, const T& x2)
-	{
-		Vector2D<T> temp = curve.dt(0);
-		if (temp.y < 0 | temp.x < 0)	temp.reverse();
-		auto p1 = curve.PPoints[1];
-		auto p2 = curve.PPoints[2];
-		Vertex2D<T>& P1 = curve.PPoints[1];
-		Vertex2D<T>& P2 = curve.PPoints[2];
-		P1 = curve.PPoints[0] + temp*x1;
-		temp = curve.dt(1);//вот тут вопросы!!!!!!!
-		if (temp.x > 0 | temp.y < 0)	temp.reverse();
-		P2 = curve.PPoints[3] + temp*x2;
-		T tt = curve.find_nearest(point);
-		if ((tt < 0) || (tt > 1))	throw(exception());
-		auto R = curve.getPoint(tt);
-		P1 = p1;
-		P2 = p2;
-		return R;
-	}
-	void recompute(const T& x1, const T& x2)
-	{
-		Vector2D<T> temp = curve.dt(0);
-		if (temp.y < 0 | temp.x < 0)	temp.reverse();
-		auto p1 = curve.PPoints[1];
-		auto p2 = curve.PPoints[2];
-		Vertex2D<T>& P1 = curve.PPoints[1];
-		Vertex2D<T>& P2 = curve.PPoints[2];
-		P1 = curve.PPoints[0] + temp*x1;
-		temp = curve.dt(1);//вот тут вопросы!!!!!!!
-		if (temp.x > 0 | temp.y < 0)	temp.reverse();
-		P2 = curve.PPoints[3] + temp*x2;
-		t = curve.find_nearest(point);
 
-	}
-	T operator () (const vector<T>& var_arr)
-	{
-		T x1(var_arr[0]), x2(var_arr[1]);
-		Vertex2D<T> A = getBezierPoint(x1,x2);
-		auto B = powf((A.x - point.x), 2) + powf((A.y - point.y), 2);
-		return (B);
-	}
-
-};
 
 template <typename T>
-class objective_function_tangent
+class of_CamberLine
 {
 protected:
 	BezierCurve<T>& assist_curve;
@@ -66,12 +13,12 @@ public:
 	BezierCurve<T>& curve;
 	Vertex2D<T>& point;
 	T t;
-	T betta;
+	T betta, k1, k2;
 	Vector2D<T> dt;
-	objective_function_tangent() {};
-	~objective_function_tangent() {};
-	objective_function_tangent(BezierCurve<T> &_curve, BezierCurve<T> &_assist_curve) :curve(_curve), assist_curve(_assist_curve), point(Vertex2D<T>()), t(0.5), betta(0.0), dt(0.0, 0.0) {};
-	objective_function_tangent(BezierCurve<T> &_curve, BezierCurve<T> &_assist_curve, Vertex2D<T>& _point) :curve(_curve),assist_curve(_assist_curve), point(_point), t(0.5), betta(0.0), dt(0.0,0.0) { };
+	of_CamberLine() {};
+	~of_CamberLine() {};
+	of_CamberLine(BezierCurve<T> &_curve, BezierCurve<T> &_assist_curve) :curve(_curve), assist_curve(_assist_curve), point(Vertex2D<T>()), t(0.5), betta(0.0), dt(0.0, 0.0), k1(curve.curvature(0.0)), k2(curve.curvature(1.0)) {};
+	of_CamberLine(BezierCurve<T> &_curve, BezierCurve<T> &_assist_curve, Vertex2D<T>& _point) :curve(_curve),assist_curve(_assist_curve), point(_point), t(0.5), betta(0.0), dt(0.0,0.0), k1(curve.curvature(0.0)), k2(curve.curvature(1.0)) { };
 	Vertex2D<T> getBezierPoint(const vector<T>& variables)
 	{
 		vector<Vertex2D<T>> &ppoints = curve.PPoints;
@@ -100,6 +47,8 @@ public:
 		dt = curve.dt(tt);
 		auto R = curve.getPoint(tt);
 		ppoints = temp_ppoints;
+		k1 = curve.curvature(0.0);
+		k2 = curve.curvature(1.0);
 		return R;
 	}
 
@@ -129,6 +78,8 @@ public:
 			
 		t = curve.find_nearest(point);
 		dt = curve.dt(t);
+		k1 = curve.curvature(0.0);
+		k2 = curve.curvature(1.0);
 	}
 	void add_PPoint(vector<T>& variables)
 	{
@@ -160,18 +111,26 @@ public:
 		tangent_vectors = tempTangents;
 		recompute(variables);
 	}
-	T coincidence_condition()
+	T coincidence_condition(const vector<T>& variables)
 	{
-		
+		Vertex2D<T> A = getBezierPoint(variables);
+		return powf((A.x - point.x), 2) + powf((A.y - point.y), 2);
 	}
 	T tangent_condition()
 	{
-
+		return powf(dt.y - dt.x * tanf(betta*PI / 180.0), 2);
 	}
-	T operator () (const vector<T>& variables)
+	T curvature_condition()
 	{
-		Vertex2D<T> A = getBezierPoint(variables);
-		auto B = powf((A.x - point.x), 2) + powf((A.y - point.y), 2) + powf(dt.y - dt.x * tanf(betta*PI / 180.0), 2);
+		return T();
+	}
+	virtual T operator () (const vector<T>& variables)
+	{
+		Configuration config;
+		T delta = config.curvature_eps;
+		T a1 = EQUAL2EPS(k1, 0.0, 0.01);
+		T a2 = EQUAL2EPS(k2, 0.0, 0.01);
+		auto B = coincidence_condition(variables) + tangent_condition() /*+ powf(a1,2) + powf(a2,2)*/;
 		return (B);
 	}
 
@@ -183,8 +142,8 @@ class obj_function_alpha
 public:
 	obj_function_alpha() {};
 	~obj_function_alpha() {};
-	//obj_function_alpha(const objective_function_tangent<T> &_f,const vector<T>& _var, const vector<T> &_p);
-	obj_function_alpha(objective_function_tangent<T>& _f, vector<T>& _var, vector<T>& _p) :f(_f), var(_var), p(_p) {}
+	//obj_function_alpha(const of_CamberLine<T> &_f,const vector<T>& _var, const vector<T> &_p);
+	obj_function_alpha(of_CamberLine<T>& _f, vector<T>& _var, vector<T>& _p) :f(_f), var(_var), p(_p) {}
 	T operator()(vector<T>& alpha)
 	{
 		vector<T> variables;
@@ -198,7 +157,7 @@ public:
 	}
 private:
 	const vector<T> &var, &p;
-	objective_function_tangent<T> &f;
+	of_CamberLine<T> &f;
 };
 
 template<typename T>
@@ -208,7 +167,7 @@ public:
 	int &index;
 	obj_functionCoorDescent() {};
 	~obj_functionCoorDescent() {};
-	obj_functionCoorDescent(objective_function_tangent<T>& _f, int &_index) :f(_f), index(_index) {};
+	obj_functionCoorDescent(of_CamberLine<T>& _f, int &_index) :f(_f), index(_index) {};
 	T operator () (vector<T> &variables)
 	{
 		return f(variables);
@@ -218,6 +177,6 @@ public:
 		return f.curve.PPoints;
 	}
 private:
-	objective_function_tangent<T> &f;
+	of_CamberLine<T> &f;
 };
 

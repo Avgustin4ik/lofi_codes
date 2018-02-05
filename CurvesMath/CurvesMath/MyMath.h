@@ -108,10 +108,10 @@ private:
 }; 
 
 template<typename F, typename T>
-void minimization_Newthon(objective_function_tangent<T>& f,vector<T>& variables, Configuration _config )
+void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuration _config )
 {
 	vector<T> initial_data(variables);
-	vector<T> npx, npy, fx, fy, dfx, dfy, ax, ay;
+	vector<T> npx, npy, fx, fy, dfx, dfy, ax, ay, k1y, k2y;
 	vector<float32>  x;
 	vector<float32>  y;
 	x.push_back(f.point.x);
@@ -227,6 +227,8 @@ void minimization_Newthon(objective_function_tangent<T>& f,vector<T>& variables,
 		norm = true;
 		Matrix<T> g(df(variables));
 		Matrix<T> G(ddf(variables));
+		auto _G = G.invers();
+		auto DET = G.determinant();
 		matrixScaling(G, g);
 		g = g * -1;
 		method_Gauss_SLAU(G, g, p);
@@ -249,7 +251,7 @@ void minimization_Newthon(objective_function_tangent<T>& f,vector<T>& variables,
 		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear(); dfx.clear(); dfy.clear();
 #ifndef _DEBUG
 		plt::clf();
-		plt::subplot(2, 4, 1);
+		plt::subplot(3, 2, 1);
 		for (auto i = 0; i < 101; i++) {
 			auto z = float(i) / float(100);
 			auto P = f.curve.getPoint(z);
@@ -269,11 +271,11 @@ void minimization_Newthon(objective_function_tangent<T>& f,vector<T>& variables,
 		plt::plot(Pnx, Pny, "x--r");
 		plt::plot(Bnx, Bny);
 
-		plt::subplot(2, 4, 2);
+		plt::subplot(3, 2, 2);
 		plt::plot(fx, fy);
 		plt::grid(true);
 		
-		plt::subplot(2, 4, 3);
+		plt::subplot(3, 2, 3);
 		plt::grid(true);
 		plt::axis("equal");
 		auto c = f.curve;
@@ -284,17 +286,24 @@ void minimization_Newthon(objective_function_tangent<T>& f,vector<T>& variables,
 		plt::plot(dfx, dfy);
 		plt::grid(true);
 
-		plt::subplot(2, 4, 4);
+		plt::subplot(3, 2, 4);
 		plt::ylim(0, 1);
 		plt::ylabel("alpha");
 		ax.push_back(i);
 		ay.push_back(alpha[0]);
-		
 		plt::plot(ax, ay);
 		plt::grid(true);
 
-		//plt::axis("equal");
-		plt::pause(0.001);
+		plt::subplot(3, 2, 5);
+		plt::ylim(-5, 1);
+		plt::ylabel("curvature");
+		k1y.push_back(f.k1);
+		k2y.push_back(f.k2);
+		plt::plot(ax, k1y);
+		plt::plot(ax, k2y);
+		plt::grid(true);
+
+		plt::pause(0.1);
 #endif
 	}
 	if (!isSolutionNotReached)
@@ -512,7 +521,7 @@ void method_bisection(obj_functionCoorDescent<T> &f, vector<T> &variables, const
 }
 
 template <typename F, typename T>
-void minimization_CoordinateDescent(objective_function_tangent<T>& f, vector<T> &variables, Configuration _config)
+void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, Configuration _config)
 {
 	vector<float32> Bnx, Bny, Pnx, Pny, fx, fy, npx, npy;
 	vector<float32> x(1, f.point.x), y(1, f.point.y);
@@ -524,13 +533,13 @@ void minimization_CoordinateDescent(objective_function_tangent<T>& f, vector<T> 
 	bool isSolution = true;
 	vector<Vertex2D<T>> &P = f.curve.PPoints;
 	
-	while (f(variables)>1e-3)
+	while (f(variables)>1e-5)
 	{
 		index = 0;
 		iterations++;
 		while (index < variables.size())
 		{
-			method_bisection<obj_functionCoorDescent<float32>, float32>(f_obj, variables, 0, 1);
+			method_bisection<obj_functionCoorDescent<float32>, float32>(f_obj, variables, 0.0,1.0);
 			index++;
 		}
 			f.recompute(variables);

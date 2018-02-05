@@ -158,8 +158,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BezierCurve.h" />
+    <ClInclude Include="Curvature.h" />
     <ClInclude Include="CurvesMath.h" />
     <ClInclude Include="Gauss_math.h" />
+    <ClInclude Include="IFunction.h" />
     <ClInclude Include="matplotlibcpp.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MyMath.h" />
