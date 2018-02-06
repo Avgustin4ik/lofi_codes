@@ -2,7 +2,9 @@
 #include <math.h>
 #include <vector>
 #include "Matrix.h"
-
+#include "cppoptlib\meta.h"
+#include "cppoptlib\problem.h"
+#include "cppoptlib\solver\bfgssolver.h"
 
 typedef float float32;
 typedef double float64;

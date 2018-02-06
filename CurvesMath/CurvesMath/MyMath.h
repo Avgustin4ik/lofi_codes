@@ -303,7 +303,7 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 		plt::plot(ax, k2y);
 		plt::grid(true);
 
-		plt::pause(0.1);
+		plt::pause(0.001);
 #endif
 	}
 	if (!isSolutionNotReached)
@@ -503,7 +503,7 @@ void method_bisection(obj_functionCoorDescent<T> &f, vector<T> &variables, const
 	xn = (a + b) / 2;
 	auto fx = f(variables);
 	auto fxn = f(new_variables);
-	while (fabsf(f(new_variables) - f(variables)) > (1e-4))
+	while (fabsf(f(new_variables) - f(variables)) > (1e-5))
 	{
 		x = xn;
 		dfx = df(new_variables, index);
@@ -516,6 +516,7 @@ void method_bisection(obj_functionCoorDescent<T> &f, vector<T> &variables, const
 			b = xn;
 		}
 		xn = (a + b) / 2;
+		f.f.recompute(new_variables);
 	}
 	x = xn;
 }
@@ -533,7 +534,7 @@ void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, C
 	bool isSolution = true;
 	vector<Vertex2D<T>> &P = f.curve.PPoints;
 	
-	while (f(variables)>1e-5)
+	while (f(variables)>1e-3)
 	{
 		index = 0;
 		iterations++;
@@ -541,8 +542,8 @@ void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, C
 		{
 			method_bisection<obj_functionCoorDescent<float32>, float32>(f_obj, variables, 0.0,1.0);
 			index++;
-		}
 			f.recompute(variables);
+		}
 		if (iterations == _config.iterations_limit) { isSolution = false; break; }
 		if ((P[0].x >= P[1].y) || (P[P.size() - 3].x < P[P.size() - 4].x))
 		{
@@ -597,7 +598,7 @@ void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, C
 #endif
 	}
 	
-
+	
 }
 
 
