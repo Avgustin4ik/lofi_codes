@@ -8,8 +8,8 @@ public:
 	T x, y;
 	Vector2D() :x(0), y(0) {}
 	~Vector2D() {}
-	Vector2D(const T &_x, const T &_y) : x(_x), y(_y) {}
-	Vector2D(const T &_angle) { x = cosf(_angle); y = sinf(_angle); }
+	Vector2D(const T &_x, const T &_y) : x(_x), y(_y) { /*(*this).normalize(); */}
+	Vector2D(const T &_angle) { x = cosf(_angle); y = sinf(_angle);}
 //	Vector2D(T _x, T _y) : x(_x), y(_y) {}
 	const float64 length() const
 	{
@@ -62,6 +62,14 @@ public:
 		T X = x + _vec.x;
 		T Y = y + _vec.y;
 		return Vector2D(X, Y);
+	}
+	const Vector2D<T> operator + (const T &angle_rad)
+	{
+		return Vector2D(cos(atan(y / x) + angle_rad), sin(atan(y / x) + angle_rad));
+	}
+	const Vector2D<T> operator - (const T &angle_rad)
+	{
+		return Vector2D(cos(atan(y / x) - angle_rad), sin(atan(y / x) - angle_rad));
 	}
 private:
 

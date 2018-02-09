@@ -111,7 +111,7 @@ template<typename F, typename T>
 void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuration _config )
 {
 	vector<T> initial_data(variables);
-	vector<T> npx, npy, fx, fy, dfx, dfy, ax, ay, k1y, k2y;
+	vector<T> npx, npy, fx, fy, dfx, dfy, ax, ay, k1y, k2y, curvX, curvY;
 	vector<float32>  x;
 	vector<float32>  y;
 	x.push_back(f.point.x);
@@ -248,7 +248,7 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 		f.recompute(variables_new);
 		fx.push_back(i);
 		fy.push_back(f_vn);
-		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear(); dfx.clear(); dfy.clear();
+		Pnx.clear(); Pny.clear(); Bnx.clear(); Bny.clear(); npx.clear(); npy.clear(); dfx.clear(); dfy.clear(), curvX.clear(), curvY.clear();
 #ifndef _DEBUG
 		plt::clf();
 		plt::subplot(3, 2, 1);
@@ -257,6 +257,8 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 			auto P = f.curve.getPoint(z);
 			Bnx.push_back(P.x);
 			Bny.push_back(P.y);
+			curvX.push_back(z);
+			curvY.push_back(f.curve.curvature(z));
 		}
 		for (auto &i : f.curve.PPoints) {
 			Pnx.push_back(i.x);
@@ -303,7 +305,14 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 		plt::plot(ax, k2y);
 		plt::grid(true);
 
-		plt::pause(0.001);
+		plt::subplot(3, 2, 6);
+		plt::ylabel("curvature");
+		plt::plot(vector<double>({ 0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0 }), f.curvature);
+		plt::plot(curvX, curvY);
+		
+		plt::grid(true);
+
+		plt::pause(0.1);
 #endif
 	}
 	if (!isSolutionNotReached)
@@ -521,6 +530,7 @@ void method_bisection(obj_functionCoorDescent<T> &f, vector<T> &variables, const
 	x = xn;
 }
 
+
 template <typename F, typename T>
 void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, Configuration _config)
 {
@@ -600,6 +610,30 @@ void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, C
 	
 	
 }
-
-
+template <typename T>
+vector<Vertex2D<T>> getEdgePoints(const bool &isLeadingEdge, BezierCurve<T> &curve, const T &omega, const T &radius)
+{
+	
+	Vector2D<T> tangent;
+	Vertex2D<T> P;
+	vector<Vertex2D<T>> points;
+	points.reserve(2);
+	float64 angle = 90 - omega / 2;
+	angle = angle * 180 / PI;
+	if (isLeadingEdge) {
+		P = curve.PPoints[0];
+		tangent = curve.dt(0);
+	}
+	else {
+		P = curve.PPoints[curve.PPoints.size() - 1];
+		tangent = curve.dt(1);
+	}
+	float64 a = atan(tangent.y / tangent.x);
+	float64 phi = 2 * PI + a - angle;
+	Vector2D<T> direct1 = tangent + phi;
+	Vector2D<T> direct2 = tangent - phi;
+	points.emplace_back(P + direct1 * radius);
+	points.emplace_back(P + direct2 * radius);
+	return points;
+}
 

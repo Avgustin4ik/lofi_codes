@@ -74,13 +74,8 @@ public:
 		if ((t < 0) || (t > 1))	throw(exception());
 		Vertex2D<T> R(0, 0);
 		for (size_t i = 0; i < PPoints.size(); i++)
-		{
 			R = R + PPoints[i] * bernstein_data[i] * (powf(t, i)*powf(1 - t, m - i));
-//			R.x += bernstein_data[i] * (powf(t, i)*powf(1 - t, m - i))*PPoints[i].x;
-//			R.y += bernstein_data[i] * (powf(t, i)*powf(1 - t, m - i)) * PPoints[i].y;
-//			R.x += Bernstein(m, i, t)*PPoints[i].x;
-//			R.y += Bernstein(m, i, t)*PPoints[i].y;
-		}
+
 		return R;
 	}
 	const Vertex2D<T> operator [] (const float32 t)
@@ -162,7 +157,8 @@ public:
 		auto ans = (dt(t).x*ddt(t).y - dt(t).y*ddt(t).x) / powf((powf(dt(t).x, float(2)) + powf(dt(t).y, float(2))), float(3) / float(2));
 		return ans;
 	}
-	BezierCurve<T> shift_curve(const bool isSuctionSide, const Vertex2D<T> _p0, const Vertex2D<T> _pn, const vector<T> _t_arr, const vector<T> _gamma, T _angle1, T _angle2, T _alpha1, T _alpha2)
+	BezierCurve<T> shift_curve(const bool isSuctionSide, const Vertex2D<T> _p0, const Vertex2D<T> _pn,
+		const vector<T> _t_arr, const vector<T> _gamma, T _angle1, T _angle2, T _alpha1, T _alpha2)
 	{
 		vector<Vertex2D<T>> newPoints;
 		newPoints.push_back(_p0);
