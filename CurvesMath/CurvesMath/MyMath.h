@@ -1,6 +1,9 @@
 #pragma once
 #include "Objective_function.h"
 #include "Gauss_math.h"
+#include "Circle.h"
+#include "FishBone.h"
+#include "SidesFunction.h"
 #ifndef _DEBUG
 #include "matplotlibcpp.h"
 namespace plt = matplotlibcpp;
@@ -17,7 +20,7 @@ public:
 		vector<T> delta_minus(var_arr);
 		delta_plus[i] = delta_plus[i] + h;
 		delta_minus[i] = delta_minus[i] - h;
-		return (f(delta_plus) - f(delta_minus)) / (2*h);
+		return (f(delta_plus) - f(delta_minus)) / (2 * h);
 	}
 	const T operator () (const vector<T>& var_arr, size_t i) const
 	{
@@ -25,7 +28,7 @@ public:
 		vector<T> delta_minus(var_arr);
 		delta_plus[i] = delta_plus[i] + h;
 		delta_minus[i] = delta_minus[i] - h;
-		return (f(delta_plus) - f(delta_minus)) / (2*h);
+		return (f(delta_plus) - f(delta_minus)) / (2 * h);
 	}
 
 	Matrix<T> operator ()(const vector<T>& var)
@@ -50,7 +53,7 @@ private:
 };
 
 
-template <typename F,typename T>
+template <typename F, typename T>
 class second_derivative
 {
 public:
@@ -62,7 +65,7 @@ public:
 		vector<T> delta_minus(var_arr);
 		delta_plus[di] = delta_plus[di] + h;
 		delta_minus[di] = delta_minus[di] - h;
-		return (fp(delta_plus,i) - fp(delta_minus,i)) / (2 * h);
+		return (fp(delta_plus, i) - fp(delta_minus, i)) / (2 * h);
 	}
 	Matrix<T> operator ()(const vector<T>& var)
 	{
@@ -76,8 +79,8 @@ public:
 				vector<T> delta_minus(var);
 				delta_plus[j] = delta_plus[j] + h;
 				delta_minus[j] = delta_minus[j] - h;
-				T a = (fp(delta_plus)(i,0) - fp(delta_minus)(i,0)) / (2 * h);
-				result(i, j) = EQUAL(a,0.0);
+				T a = (fp(delta_plus)(i, 0) - fp(delta_minus)(i, 0)) / (2 * h);
+				result(i, j) = EQUAL(a, 0.0);
 			}
 		return result;
 	}
@@ -87,7 +90,7 @@ private:
 	derivarive<F, T> fp;
 };
 
-template <typename F,typename T>
+template <typename F, typename T>
 //Упрощенное нахождение второй производной функции одной переменной
 class second_derivative_simple
 {
@@ -105,10 +108,10 @@ public:
 private:
 	T h;
 	F& f;
-}; 
+};
 
 template<typename F, typename T>
-void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuration _config )
+void minimization_Newthon(of_CamberLine<T>& f, vector<T>& variables, Configuration _config)
 {
 	vector<T> initial_data(variables);
 	vector<T> npx, npy, fx, fy, dfx, dfy, ax, ay, k1y, k2y, curvX, curvY;
@@ -119,11 +122,11 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 	T h = _config.h;
 	vector<float32> alpha(1, _config.alpha);
 	bool isSolutionNotReached = false;
-	derivarive<F, T> df(f,h);
+	derivarive<F, T> df(f, h);
 	second_derivative<F, T> ddf(f, h);
 	vector<T> variables_new(2);
 	Matrix<T> p(variables.size(), 1);
-	
+
 	vector<float32> Pnx, Pny, Bnx, Bny;//для отображения
 #ifndef _DEBUG
 	plt::clf();
@@ -156,7 +159,7 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 	p_vec.reserve(p.m);
 	for (size_t i = 0; i < p.m; i++)
 		p_vec.emplace_back(p(i, 0));
-	obj_function_alpha<T> f_alpha(f, variables, p_vec);
+	obj_function_alpha<of_CamberLine<T>, T> f_alpha(f, variables, p_vec);
 	method_bisection(f_alpha, alpha, LEFT_BORDER, RIGHT_BORDER);
 
 	for (size_t i = 0; i < p.m; i++)
@@ -185,18 +188,18 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 	plt::plot(x, y, "D");
 	plt::plot(Pnx, Pny, "x--r");
 	plt::plot(Bnx, Bny);
-	plt::pause(0.5);
+	plt::pause(0.01);
 #endif
 	vector<T> xx, yy;
 	while (fabs(f(variables_new)) > 1e-3)
-	//while (powf((f.getBezierPoint(variables_new).x - f.point.x), 2) + powf((f.getBezierPoint(variables_new).y - f.point.y), 2) > 1e-5)
+		//while (powf((f.getBezierPoint(variables_new).x - f.point.x), 2) + powf((f.getBezierPoint(variables_new).y - f.point.y), 2) > 1e-5)
 	{
 		size = variables.size();
 		Matrix<T> p(size, 1);
 		vector<Vertex2D<T>> &PP = f.curve.PPoints;
 		i++;
-		int m = f.curve.PPoints.size()-1;
-		if (i > (m-2)*50) { 
+		int m = f.curve.PPoints.size() - 1;
+		if (i > (m - 2) * 30) {
 			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables);
@@ -214,7 +217,7 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 			variables_new.resize(variables.size());
 			norm = false;
 		}
-		if ((powf(variables_new[0],2) <= 0.001) || (powf(variables_new[1],2) <= 0.001)) {
+		if ((powf(variables_new[0], 2) <= 0.001) || (powf(variables_new[1], 2) <= 0.001)) {
 			variables = initial_data;
 			f.recompute(variables);
 			f.add_PPoint(variables);
@@ -222,7 +225,7 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 			p = Matrix<T>(variables.size(), 1);
 			variables_new.resize(variables.size());
 			norm = false;
-		} 
+		}
 		if (norm) variables = variables_new;
 		norm = true;
 		Matrix<T> g(df(variables));
@@ -266,7 +269,7 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 		}
 		npx.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).x);
 		npy.push_back(f.curve.getPoint(f.curve.find_nearest(f.point)).y);
-		plt::plot(npx, npy,"D");
+		plt::plot(npx, npy, "D");
 		plt::grid(true);
 		plt::axis("equal");
 		plt::plot(x, y, "D");
@@ -276,7 +279,7 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 		plt::subplot(3, 2, 2);
 		plt::plot(fx, fy);
 		plt::grid(true);
-		
+
 		plt::subplot(3, 2, 3);
 		plt::grid(true);
 		plt::axis("equal");
@@ -309,7 +312,7 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 		plt::ylabel("curvature");
 		plt::plot(vector<double>({ 0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0 }), f.curvature);
 		plt::plot(curvX, curvY);
-		
+
 		plt::grid(true);
 
 		plt::pause(0.1);
@@ -321,16 +324,122 @@ void minimization_Newthon(of_CamberLine<T>& f,vector<T>& variables, Configuratio
 	}
 }
 
+template<typename F, typename T>
+void minimization_Newthon(F &f, vector<T> &x, Configuration _config)
+{
+	vector<double> fx, fy;
+	int i = 0;
+	auto initialData(x);
+	vector<T> alpha;
+	alpha.push_back(0.1);
+	while (fabsf(f(x)) > 1e-3)
+	{
+		vector<Vertex2D<float32>> &cP(f.getCurve().PPoints);
+		if (i % 50 == 0 && i != 0) (f.increaseCurve(x));
+		if (i == _config.iterations_limit) break;
+		if (cP[0].length(cP[1])<1e-3 || cP[cP.size() - 1].length(cP[cP.size() - 2])<1e-3)
+		{
+			x = initialData;
+			f.increaseCurve(x);
+			initialData = x;
+		}
+		for (auto &ptr : x)
+			if (ptr > 1)
+			{
+				x = initialData;
+				f.increaseCurve(x);
+				initialData = x;
+			}
+		T h = _config.h;
+		derivarive<F, T> df(f, h);
+		second_derivative<F, T> ddf(f, h);
+		Matrix<T> p(x.size(), 1);
+		Matrix<T> g(df(x));
+		Matrix<T> G(ddf(x));
+		matrixScaling(G, g);
+		method_Gauss_SLAU(G, g, p);
+
+		vector<T> p_vec;
+		p_vec.reserve(p.m);
+		for (size_t i = 0; i < p.m; i++)
+			p_vec.emplace_back(p(i, 0));
+		obj_function_alpha<SidesFunction<float32>, float32> f_alpha(f, x, p_vec);
+		method_bisection<obj_function_alpha<SidesFunction<float32>, float32>, T>(f_alpha, alpha, 0.0, 1.0);
+		for (size_t i = 0; i < p.m; i++)
+		{
+			size_t j = 0;
+			x[i] = x[i] + alpha[0] * p(i, j);
+		}
+		i++;
+		vector<double> Pnx, Pny, Bnx, Bny, cpx, cpy;
+#ifndef _DEBUG
+		plt::clf();
+		plt::subplot(2, 1, 1);
+		
+		plot_curve(f.getCurve());
+		plot_fishbones(f.getFishBones());
+		for (auto &i : f.getConditionPoints())
+		{
+			cpx.push_back(i.x);
+			cpy.push_back(i.y);
+		}
+		plt::grid(true);
+		plt::axis("equal");
+		plt::plot(Pnx, Pny, "x--r");
+		plt::plot(Bnx, Bny);
+		plt::plot(cpx, cpy, "D");
+		plt::subplot(2, 1, 2);
+		plt::grid(true);
+		fx.push_back(i);
+		fy.push_back(f(x));
+		plt::plot(fx, fy, "-b");
+		plt::pause(0.001);
+#endif // !_DEBUG
+
+	}
+
+}
+
+#ifndef _DEBUG
+template<typename F, typename T>
+void minimize_cpp(BfgsSolver<SidesFunction<float32>> &solver, F &f, VectorXd &x)
+{
+	VectorXd initialData(x);
+	vector<T> variables(-1, x.size());
+	while (f.value(x) > 1e-3)
+	{
+		solver.minimize(f, x);
+		plot_curve(f.getCurve());
+		plt::pause(0.1);
+		std::cout << "argmin      " << x.transpose() << std::endl;
+		if (f.value(x) > 1e-3)
+		{
+			x = initialData;
+			for (size_t i = 0; i < x.size(); i++)	variables[i] = x[i];
+			f.increaseCurve(variables);
+			cout << "Point is added" << endl;
+			x.resize(variables.size());
+			for (size_t i = 0; i < x.size(); i++)	x[i] = variables[i];
+			std::cout << "argmin after adding point     " << x.transpose() << std::endl;
+			initialData = x;
+		}
+	}
+}
+
+#endif // !_DEBUG
+
 template<typename T>
 class function_bezier2point
 {
 public:
-	function_bezier2point(BezierCurve<T>& _f,const  Vertex2D<T>& _point):f(_f),point(_point) {};
+	function_bezier2point(BezierCurve<T>& _f, const  Vertex2D<T>& _point) :f(_f), point(_point) {};
 	~function_bezier2point() {};
 
 	T operator () (const vector<T>& var) const
 	{
 		T t = var[0];
+		t = EQUAL2EPS(t, 0.0, 1e-3);
+		t = EQUAL2EPS(t, 1.0, 1e-3);
 		return (f.getPoint(t).length(point));
 	}
 
@@ -405,7 +514,7 @@ void method_bisection(F& f, vector<T> &variables, const T left_border, const T r
 	}
 	x = xn;
 }
-template <typename F, typename T>			
+template <typename F, typename T>
 void method_bisection_two_variables(F& f, vector<T> &variables, const T left_border, const T right_border)
 {
 	using d_f = derivarive<F, T>;
@@ -434,7 +543,7 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 	new_variables[1] = xn;
 	auto fx = f(variables);
 	auto fxn = f(new_variables);
-	f.recompute(new_variables[0],new_variables[1]);
+	f.recompute(new_variables[0], new_variables[1]);
 	while (fabsf(f(new_variables) - f(variables)) > (1e-6))
 	{
 		x = xn;
@@ -480,7 +589,7 @@ void method_bisection_two_variables(F& f, vector<T> &variables, const T left_bor
 		plt::pause(0.5);
 #endif
 		//****************************для отображения
-		
+
 	}
 	x = xn;
 	variables[1] = x;
@@ -543,14 +652,14 @@ void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, C
 	int iterations(0);
 	bool isSolution = true;
 	vector<Vertex2D<T>> &P = f.curve.PPoints;
-	
-	while (f(variables)>1e-3)
+
+	while (f(variables) > 1e-3)
 	{
 		index = 0;
 		iterations++;
 		while (index < variables.size())
 		{
-			method_bisection<obj_functionCoorDescent<float32>, float32>(f_obj, variables, 0.0,1.0);
+			method_bisection<obj_functionCoorDescent<float32>, float32>(f_obj, variables, 0.0, 1.0);
 			index++;
 			f.recompute(variables);
 		}
@@ -569,7 +678,7 @@ void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, C
 			f.add_PPoint(variables);
 			initial_data = variables;
 		}
-		if (iterations > (P.size() - 3)*50) 
+		if (iterations > (P.size() - 3) * 50)
 		{
 			variables = initial_data;
 			f.recompute(variables);
@@ -598,7 +707,7 @@ void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, C
 		plt::plot(x, y, "D");
 		plt::plot(Pnx, Pny, "x--r");
 		plt::plot(Bnx, Bny);
-		
+
 		plt::subplot(2, 2, 2);
 		fx.push_back(iterations); fy.push_back(f(variables));
 		plt::plot(fx, fy);
@@ -606,20 +715,21 @@ void minimization_CoordinateDescent(of_CamberLine<T>& f, vector<T> &variables, C
 
 		plt::pause(0.01);
 #endif
+		}
+
+
 	}
-	
-	
-}
 template <typename T>
 vector<Vertex2D<T>> getEdgePoints(const bool &isLeadingEdge, BezierCurve<T> &curve, const T &omega, const T &radius)
 {
-	
+	if (omega > 180 || omega < 0) throw(exception());
 	Vector2D<T> tangent;
 	Vertex2D<T> P;
 	vector<Vertex2D<T>> points;
 	points.reserve(2);
-	float64 angle = 90 - omega / 2;
-	angle = angle * 180 / PI;
+	float64 _omega(omega);
+	if (!isLeadingEdge) _omega *= -1;
+	float64 angle = PI / 2 - RAD(_omega / 2);
 	if (isLeadingEdge) {
 		P = curve.PPoints[0];
 		tangent = curve.dt(0);
@@ -628,12 +738,33 @@ vector<Vertex2D<T>> getEdgePoints(const bool &isLeadingEdge, BezierCurve<T> &cur
 		P = curve.PPoints[curve.PPoints.size() - 1];
 		tangent = curve.dt(1);
 	}
-	float64 a = atan(tangent.y / tangent.x);
-	float64 phi = 2 * PI + a - angle;
+	float64 phi = PI - angle;
 	Vector2D<T> direct1 = tangent + phi;
 	Vector2D<T> direct2 = tangent - phi;
 	points.emplace_back(P + direct1 * radius);
 	points.emplace_back(P + direct2 * radius);
 	return points;
 }
+
+
+//#ifndef _DEBUG
+//using namespace cppoptlib;
+//using Eigen::VectorXd;
+//template<typename F, typename S>
+//void minimization(F &f, VectorXd &x,ISolver<f,0> &solver)
+//{
+//	while (f(x)>1e-3)
+//	{
+//		solver.minimize(f, x);
+//
+//
+//	}
+//}
+//
+//
+//
+//
+//
+//
+//#endif // !_DEBUG
 

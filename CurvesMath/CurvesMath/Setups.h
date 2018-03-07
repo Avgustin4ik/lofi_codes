@@ -25,7 +25,8 @@ const float32 LEFT_BORDER = 0.0;
 const float32 RIGHT_BORDER = 1.0;
 
 #define EQUAL2EPS(X,Y,DELTA) ABS(X-Y)<=DELTA ? Y : X
-
+#define RAD(X) X*PI/180			//Перевод в радианы
+#define DEG(X) X*180/PI			//Перевод в градусы
 struct Configuration
 {
 public:
@@ -36,3 +37,14 @@ public:
 	Configuration() :iterations_limit(200), h(0.001), alpha(0.1), curvature_eps(0.001) {};
 	~Configuration() {};
 };
+
+//namespace setups
+//{
+//
+//
+//	const float32 _curvature_eps = 0.001;
+//	const uint _iterations_limit = 200;
+//	float32 _h = 0.001;//Приращение аргумента при нахождении производной	
+//	float32 _alpha = 1;//Коэффициент релаксации
+//	int _pointsCount = 10;
+//}

@@ -131,7 +131,7 @@ public:
 			if (i <= 0)
 				sum += 0;
 			else
-				sum += powf(EQUAL2EPS(i, 0.0, 0.1), 2);
+				sum += powf(EQUAL2EPS(i, 0.0, 0.8), 2);
 		}
 		return sum;
 	}
@@ -141,11 +141,11 @@ public:
 		curvature.reserve(10);
 		for (size_t i = 0; i < 11; i++)
 		{
-			float32 t = float(i) / 100.0;
+			float32 t = float(i) / 10.0;
 			curvature.emplace_back(curve.curvature(t));
 		}
 	}
-	virtual T operator () (const vector<T>& variables)
+	T operator () (const vector<T>& variables)
 	{
 		curvatureRefresh(variables);
 		auto B = coincidence_condition(variables) + tangent_condition() + curvature_condition();
@@ -153,7 +153,7 @@ public:
 	}
 };
 
-template<typename T>
+template<typename F, typename T>
 class obj_function_alpha
 {
 public:
@@ -161,7 +161,8 @@ public:
 	obj_function_alpha() {};
 	~obj_function_alpha() {};
 	//obj_function_alpha(const of_CamberLine<T> &_f,const vector<T>& _var, const vector<T> &_p);
-	obj_function_alpha(of_CamberLine<T>& _f, vector<T>& _var, vector<T>& _p) :f(_f), var(_var), p(_p) {}
+	//obj_function_alpha(of_CamberLine<T>& _f, vector<T>& _var, vector<T>& _p) :f(_f), var(_var), p(_p) {}
+	obj_function_alpha(F &_f, vector<T> &_var, vector<T> &_p) : f(_f), var(_var), p(_p) {}
 	T operator()(vector<T>& alpha)
 	{
 		vector<T> variables;
@@ -173,9 +174,10 @@ public:
 
 		return f(variables);
 	}
-private:
+
+protected:
 	const vector<T> &var, &p;
-	of_CamberLine<T> &f;
+	F &f;
 };
 
 template<typename T>
@@ -199,10 +201,10 @@ private:
 	//of_CamberLine<T> &f;
 };
 
-	using namespace cppoptlib;
-	using Eigen::VectorXd;
+#ifndef _DEBUG
 
-
+using namespace cppoptlib;
+using Eigen::VectorXd;
 
 template <typename T>
 class CamberLineFunction : public Problem<double>
@@ -295,36 +297,7 @@ public:
 		k2 = curve.curvature(1.0);
 
 	}
-	void add_PPoint(vector<T>& variables)
-	{
-		vector<T> tempVariables;
-		vector<Vector2D<T>> tempTangents;
-		tempVariables.reserve(variables.size() + 2);
-		tempTangents.reserve(variables.size() - 2);
-		curve.increase();
-		vector<Vertex2D<float32>> &ppoints = curve.PPoints;
-		size_t size = ppoints.size();
-		bool isUp = true;
-		if (curve.getPoint(0.5).y < assist_curve.getPoint(0.5).y)	isUp = false;	else isUp = true;
-
-		tempVariables.emplace_back(sqrtf(ppoints[0].length(ppoints[1])));
-		tempVariables.emplace_back(sqrtf(ppoints[size - 1].length(ppoints[size - 2])));
-		for (size_t i = 2; i < size - 2; i++)
-		{
-			float32 t_assist = assist_curve.find_nearest(ppoints[i]);
-			Vector2D<T> normal, tangent;
-			tangent = assist_curve.dt(t_assist);
-			normal.normal2vector(tangent, isUp);
-			tempTangents.emplace_back(normal);
-			Vertex2D<T> point_assist = assist_curve.getPoint(t_assist);
-			T gamma_i = sqrtf(ppoints[i].length(point_assist));
-			tempVariables.emplace_back(sqrtf(point_assist.x));
-			tempVariables.emplace_back(gamma_i);
-		}
-		variables = tempVariables;
-		tangent_vectors = tempTangents;
-		recompute(variables);
-	}
+	
 	T coincidence_condition(const vector<T>& variables)
 	{
 		Vertex2D<T> A = getBezierPoint(variables);
@@ -339,10 +312,10 @@ public:
 		float32 sum = 0.0;
 		for (auto &i : curvature)
 		{
-			if (i<=0)
-			sum += 0;
-			else 
-				sum += powf(EQUAL2EPS(i,0.0,0.1), 2);
+			if (i <= 0)
+				sum += 0;
+			else
+				sum += powf(EQUAL2EPS(i, 0.0, 0.1), 2);
 		}
 		return sum;
 	}
@@ -352,7 +325,7 @@ public:
 		curvature.reserve(11);
 		for (size_t i = 0; i < 11; i++)
 		{
-			float32 t = float(i) / float(100);
+			float32 t = float(i) / float(10);
 			curvature.emplace_back(curve.curvature(t));
 		}
 	}
@@ -408,7 +381,11 @@ public:
 	}
 	double operator = (const vector<T> &variables)
 	{
-
-		return coincidence_condition(variables) + tangent_condition() /*+ curvature_condition()*/;
+		return coincidence_condition(variables) + tangent_condition() + curvature_condition();
 	}
 };
+#endif // !_DEBUG
+
+
+
+

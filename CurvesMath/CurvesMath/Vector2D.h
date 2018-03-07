@@ -8,8 +8,8 @@ public:
 	T x, y;
 	Vector2D() :x(0), y(0) {}
 	~Vector2D() {}
-	Vector2D(const T &_x, const T &_y) : x(_x), y(_y) { /*(*this).normalize(); */}
-	Vector2D(const T &_angle) { x = cosf(_angle); y = sinf(_angle);}
+	Vector2D(const T &_x, const T &_y) : x(_x), y(_y) {}
+	Vector2D(const T &_angle) { x = cosf(RAD(_angle)); y = sinf(RAD(_angle));}
 //	Vector2D(T _x, T _y) : x(_x), y(_y) {}
 	const float64 length() const
 	{
@@ -51,6 +51,10 @@ public:
 		T Y = y*_value;
 		return Vector2D(X, Y);
 	}
+	T operator *(const Vector2D<T> &v)
+	{
+		return x*v.x + y*v.y;
+	}
 	Vector2D<T> operator *=(const T &_value)
 	{
 		T X = x*_value;
@@ -65,11 +69,11 @@ public:
 	}
 	const Vector2D<T> operator + (const T &angle_rad)
 	{
-		return Vector2D(cos(atan(y / x) + angle_rad), sin(atan(y / x) + angle_rad));
+		return Vector2D(EQUAL(cos(atan(y / x) + angle_rad), 0.0), EQUAL(sin(atan(y / x) + angle_rad), 0.0));
 	}
 	const Vector2D<T> operator - (const T &angle_rad)
 	{
-		return Vector2D(cos(atan(y / x) - angle_rad), sin(atan(y / x) - angle_rad));
+		return Vector2D(EQUAL(cos(atan(y / x) - angle_rad), 0.0), EQUAL(sin(atan(y / x) - angle_rad), 0.0));
 	}
 private:
 

@@ -163,7 +163,7 @@ public:
 		vector<Vertex2D<T>> newPoints;
 		newPoints.push_back(_p0);
 		Vector2D<float32> vtemp_1(_angle1);
-		Vector2D<float32> vtemp_n(_angle2);
+		Vector2D<float32> vtemp_n(180 - _angle2);
 		Vertex2D<float32> p1;
 		p1 = newPoints[0] + vtemp_1*_alpha1;
 		Vertex2D<float32> pn_1 = _pn + vtemp_n*_alpha2;
@@ -175,7 +175,7 @@ public:
 			Vector2D<float32> vtemp;
 			vtemp.normal2vector(dt(_t_arr[i]),isSuctionSide);
 			vtemp.normalize();
-			vtemp = vtemp * _gamma[i];
+			vtemp = vtemp * powf(_gamma[i], 2);
 			ptemp = ptemp + vtemp;
 			newPoints.push_back(ptemp);
 		}
