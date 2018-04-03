@@ -4,7 +4,6 @@
 #include <vector>
 #include "Setups.h"
 
-
 using namespace std;
 template <typename T>
 
@@ -20,7 +19,6 @@ protected:
 	}
 public:
 	uint m;
-//	vector<Vertex2D<T>> Points;	//координаты кривой
 	vector<Vertex2D<T>> PPoints;	//координаты характерных точек
 	vector<T> bernstein_data;
 
@@ -183,5 +181,6 @@ public:
 		newPoints.push_back(_pn);
 		return BezierCurve<T>(newPoints);
 	}
-	
+
 };
+

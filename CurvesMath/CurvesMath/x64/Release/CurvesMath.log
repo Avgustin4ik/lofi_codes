@@ -1,1 +1,5 @@
-﻿C:\Users\AlexeevRA\AppData\Local\Programs\Python\Python36-32\python36.dll : fatal error LNK1107: недопустимый или поврежденный файл: не удается прочитать по 0x2E8
+﻿  stdafx.cpp
+  Circle.cpp
+d:\work roman\lofi_codes\curvesmath\curvesmath\cppoptlib\meta.h(7): fatal error C1083: Не удается открыть файл включение: Eigen/Core: No such file or directory,
+  CurvesMath.cpp
+d:\work roman\lofi_codes\curvesmath\curvesmath\cppoptlib\meta.h(7): fatal error C1083: Не удается открыть файл включение: Eigen/Core: No such file or directory,

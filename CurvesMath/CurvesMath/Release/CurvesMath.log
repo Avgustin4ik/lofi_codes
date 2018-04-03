@@ -2,72 +2,72 @@
 d:\work roman\lofi_codes\curvesmath\curvesmath\cppoptlib\problem.h(27): warning C4068: неизвестная директива pragma
 d:\work roman\lofi_codes\curvesmath\curvesmath\cppoptlib\problem.h(28): warning C4068: неизвестная директива pragma
 d:\work roman\lofi_codes\curvesmath\curvesmath\cppoptlib\problem.h(36): warning C4068: неизвестная директива pragma
-d:\work roman\lofi_codes\curvesmath\curvesmath\Setups.h(37): warning C4305: инициализация: усечение из "double" в "const float32"
-d:\work roman\lofi_codes\curvesmath\curvesmath\Setups.h(37): warning C4305: инициализация: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\setups.h(37): warning C4305: инициализация: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\setups.h(37): warning C4305: инициализация: усечение из "double" в "float32"
 d:\work roman\lofi_codes\curvesmath\curvesmath\temp.h(32): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
 d:\work roman\lofi_codes\curvesmath\curvesmath\temp.h(33): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-CurvesMath.cpp(26): warning C4244: аргумент: преобразование "double" в "float32", возможна потеря данных
-CurvesMath.cpp(27): warning C4244: аргумент: преобразование "double" в "float32", возможна потеря данных
-CurvesMath.cpp(45): warning C4305: аргумент: усечение из "double" в "float32"
-CurvesMath.cpp(70): warning C4018: <: несоответствие типов со знаком и без знака
-CurvesMath.cpp(72): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
-CurvesMath.cpp(88): warning C4018: <: несоответствие типов со знаком и без знака
-CurvesMath.cpp(90): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
-CurvesMath.cpp(97): warning C4305: аргумент: усечение из "double" в "const float32"
-CurvesMath.cpp(98): warning C4305: аргумент: усечение из "double" в "const float32"
-CurvesMath.cpp(109): warning C4305: аргумент: усечение из "double" в "float32"
-CurvesMath.cpp(114): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-CurvesMath.cpp(115): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-CurvesMath.cpp(118): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-CurvesMath.cpp(119): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-CurvesMath.cpp(128): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-CurvesMath.cpp(132): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-CurvesMath.cpp(160): warning C4018: <: несоответствие типов со знаком и без знака
-CurvesMath.cpp(160): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
-CurvesMath.cpp(165): warning C4305: аргумент: усечение из "double" в "const float32"
-CurvesMath.cpp(180): warning C4018: <: несоответствие типов со знаком и без знака
-CurvesMath.cpp(216): warning C4551: в вызове функции отсутствует список аргументов
-CurvesMath.cpp(269): warning C4305: аргумент: усечение из "double" в "const float32"
-d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(335): warning C4018: <: несоответствие типов со знаком и без знака
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(333): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(54): note: выполняется компиляция ссылки на экземпляр шаблон класс "CamberLineFunction<float32>"
-d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(337): warning C4244: аргумент: преобразование "const double" в "const float32", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(276): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(271): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(74): note: выполняется компиляция ссылки на экземпляр шаблон функции "void CamberLineFunction<float32>::recompute(const std::vector<T,std::allocator<_Ty>> &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(26): warning C4244: аргумент: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(27): warning C4244: аргумент: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(45): warning C4305: аргумент: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(70): warning C4018: <: несоответствие типов со знаком и без знака
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(72): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(88): warning C4018: <: несоответствие типов со знаком и без знака
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(90): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(97): warning C4305: аргумент: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(98): warning C4305: аргумент: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(109): warning C4305: аргумент: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(114): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(115): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(118): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(119): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(128): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(132): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(160): warning C4018: <: несоответствие типов со знаком и без знака
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(160): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(165): warning C4305: аргумент: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(180): warning C4018: <: несоответствие типов со знаком и без знака
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(216): warning C4551: в вызове функции отсутствует список аргументов
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(269): warning C4305: аргумент: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(335): warning C4018: <: несоответствие типов со знаком и без знака
+  d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(333): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(54): note: выполняется компиляция ссылки на экземпляр шаблон класс "CamberLineFunction<float32>"
+d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(337): warning C4244: аргумент: преобразование "const double" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(276): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
+  d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(271): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(74): note: выполняется компиляция ссылки на экземпляр шаблон функции "void CamberLineFunction<float32>::recompute(const std::vector<T,std::allocator<_Ty>> &)"
           with
           [
               T=float32,
               _Ty=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(282): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(100): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(95): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(128): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> BezierCurve<T>::dt(const float32)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(282): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(98): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(93): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(128): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> BezierCurve<T>::dt(const float32)"
           with
           [
               T=float32
           ]
   d:\work roman\lofi_codes\curvesmath\curvesmath\temp.h(32): note: выполняется компиляция ссылки на экземпляр шаблон класс "BezierCurve<float32>"
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(100): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(101): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(101): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(77): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(73): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(98): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(99): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(99): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(75): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(71): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
   d:\work roman\lofi_codes\curvesmath\curvesmath\temp.h(32): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vertex2D<T> BezierCurve<T>::getPoint(const float32)"
           with
           [
               T=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(77): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(12): warning C4244: аргумент: преобразование "float64" в "float", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(12): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(125): note: выполняется компиляция ссылки на экземпляр шаблон функции "Vector2D<T>::Vector2D(const T &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(75): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(12): warning C4244: аргумент: преобразование "float64" в "float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(12): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(125): note: выполняется компиляция ссылки на экземпляр шаблон функции "Vector2D<T>::Vector2D(const T &)"
           with
           [
               T=float32
           ]
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Condition.h(10): note: выполняется компиляция ссылки на экземпляр шаблон класс "Vector2D<T>"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\condition.h(10): note: выполняется компиляция ссылки на экземпляр шаблон класс "Vector2D<T>"
           with
           [
               T=float32
@@ -77,166 +77,165 @@ d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(12): warning C4244: а
           [
               T=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(12): warning C4244: аргумент: преобразование "float64" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(318): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(311): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(340): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 CamberLineFunction<float32>::curvature_condition(void)"
-d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(308): warning C4244: аргумент: преобразование "float64" в "float", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(307): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(340): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 CamberLineFunction<float32>::tangent_condition(void)"
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(111): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(106): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(157): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> BezierCurve<T>::ddt(const float32)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(12): warning C4244: аргумент: преобразование "float64" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(318): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(311): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(340): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 CamberLineFunction<float32>::curvature_condition(void)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(308): warning C4244: аргумент: преобразование "float64" в "float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(307): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(340): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 CamberLineFunction<float32>::tangent_condition(void)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(109): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(104): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(155): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> BezierCurve<T>::ddt(const float32)"
           with
           [
               T=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(111): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(112): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(112): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(17): warning C4244: аргумент: преобразование "const uint" в "const float", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(16): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(100): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 BezierCurve<float32>::Bernstein(const uint,const uint)"
-d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(17): warning C4244: аргумент: преобразование "uint" в "const float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(21): warning C4244: /=: преобразование "float64" в "float32", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(19): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(177): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> Vector2D<T>::normalize(void)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(109): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(110): warning C4244: аргумент: преобразование "::size_t" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(110): warning C4244: аргумент: преобразование "uint" в "float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(16): warning C4244: аргумент: преобразование "const uint" в "const float", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(15): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(98): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 BezierCurve<float32>::Bernstein(const uint,const uint)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(16): warning C4244: аргумент: преобразование "uint" в "const float", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(21): warning C4244: /=: преобразование "float64" в "float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(19): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(175): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> Vector2D<T>::normalize(void)"
           with
           [
               T=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(22): warning C4244: /=: преобразование "float64" в "float32", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(243): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(237): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(303): note: выполняется компиляция ссылки на экземпляр шаблон функции "Vertex2D<T> CamberLineFunction<T>::getBezierPoint(const std::vector<T,std::allocator<_Ty>> &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(22): warning C4244: /=: преобразование "float64" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(243): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
+  d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(237): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(303): note: выполняется компиляция ссылки на экземпляр шаблон функции "Vertex2D<T> CamberLineFunction<T>::getBezierPoint(const std::vector<T,std::allocator<_Ty>> &)"
           with
           [
               T=float32,
               _Ty=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\Objective_function.h(249): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
-d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(143): warning C4018: <: несоответствие типов со знаком и без знака
-  d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(140): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(155): note: выполняется компиляция ссылки на экземпляр шаблон функции "double SidesFunction<float32>::value(const Eigen::Matrix<double,-1,1,0,-1,1> &)"
-  CurvesMath.cpp(144): note: выполняется компиляция ссылки на экземпляр шаблон класс "SidesFunction<float32>"
-d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(742): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-  CurvesMath.cpp(97): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::vector<Vertex2D<T>,std::allocator<_Ty>> getEdgePoints<float32>(const bool &,BezierCurve<T> &,const T &,const T &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\objective_function.h(249): warning C4554: |: проверьте порядок применения операторов на наличие ошибки; для четкого задания порядка используйте скобки
+d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(143): warning C4018: <: несоответствие типов со знаком и без знака
+  d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(140): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(155): note: выполняется компиляция ссылки на экземпляр шаблон функции "double SidesFunction<float32>::value(const Eigen::Matrix<double,-1,1,0,-1,1> &)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(144): note: выполняется компиляция ссылки на экземпляр шаблон класс "SidesFunction<float32>"
+d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(742): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(97): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::vector<Vertex2D<T>,std::allocator<_Ty>> getEdgePoints<float32>(const bool &,BezierCurve<T> &,const T &,const T &)"
           with
           [
               T=float32,
               _Ty=Vertex2D<float32>
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(743): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\xmemory0(856): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\vector(958): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double>(_Alloc &,_Objty *const ,double &&)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(743): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.13.26128\include\xmemory0(919): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.13.26128\include\vector(968): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double>(_Alloc &,_Objty *const ,double &&)"
           with
           [
               _Alloc=std::allocator<float32>,
               _Ty=float,
               _Objty=float
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\vector(958): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double>(_Alloc &,_Objty *const ,double &&)"
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.13.26128\include\vector(968): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double>(_Alloc &,_Objty *const ,double &&)"
           with
           [
               _Alloc=std::allocator<float32>,
               _Ty=float,
               _Objty=float
           ]
-  CurvesMath.cpp(105): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::vector<T,std::allocator<_Ty>>::emplace_back<double>(double &&)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(105): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::vector<T,std::allocator<_Ty>>::emplace_back<double>(double &&)"
           with
           [
               T=float32,
               _Ty=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\Circle.h(41): warning C4305: +=: усечение из "double" в "float32"
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Circle.h(38): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(232): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::vector<T,std::allocator<_Ty>> Circle<T>::getXarray(void)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\circle.h(41): warning C4305: +=: усечение из "double" в "float32"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\circle.h(38): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(232): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::vector<T,std::allocator<_Ty>> Circle<T>::getXarray(void)"
           with
           [
               T=float32,
               _Ty=float32
           ]
-  CurvesMath.cpp(115): note: выполняется компиляция ссылки на экземпляр шаблон класс "Circle<float32>"
-d:\work roman\lofi_codes\curvesmath\curvesmath\Circle.h(50): warning C4305: +=: усечение из "double" в "float32"
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Circle.h(47): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(232): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::vector<T,std::allocator<_Ty>> Circle<T>::getYarray(void)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(115): note: выполняется компиляция ссылки на экземпляр шаблон класс "Circle<float32>"
+d:\work roman\lofi_codes\curvesmath\curvesmath\circle.h(50): warning C4305: +=: усечение из "double" в "float32"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\circle.h(47): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(232): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::vector<T,std::allocator<_Ty>> Circle<T>::getYarray(void)"
           with
           [
               T=float32,
               _Ty=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(480): warning C4305: инициализация: усечение из "double" в "float32"
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(138): note: выполняется компиляция ссылки на экземпляр шаблон функции "void method_bisection<function_bezier2point<float32>,T>(F &,std::vector<T,std::allocator<_Ty>> &,const T,const T)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(480): warning C4305: инициализация: усечение из "double" в "float32"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(136): note: выполняется компиляция ссылки на экземпляр шаблон функции "void method_bisection<function_bezier2point<float32>,T>(F &,std::vector<T,std::allocator<_Ty>> &,const T,const T)"
           with
           [
               T=float32,
               F=function_bezier2point<float32>,
               _Ty=float32
           ]
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(133): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(34): note: выполняется компиляция ссылки на экземпляр шаблон функции "const float32 BezierCurve<float32>::find_nearest(const Vertex2D<T> &)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(131): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(34): note: выполняется компиляция ссылки на экземпляр шаблон функции "const float32 BezierCurve<float32>::find_nearest(const Vertex2D<T> &)"
           with
           [
               T=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(441): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(439): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(499): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 function_bezier2point<float32>::operator ()(const std::vector<T,std::allocator<_Ty>> &) const"
+d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(441): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(439): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(499): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 function_bezier2point<float32>::operator ()(const std::vector<T,std::allocator<_Ty>> &) const"
           with
           [
               T=float32,
               _Ty=float32
           ]
-  d:\work roman\lofi_codes\curvesmath\curvesmath\BezierCurve.h(134): note: выполняется компиляция ссылки на экземпляр шаблон класс "function_bezier2point<float32>"
-d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(442): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(76): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(75): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(743): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> Vector2D<T>::operator -(const T &)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(132): note: выполняется компиляция ссылки на экземпляр шаблон класс "function_bezier2point<float32>"
+d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(442): warning C4244: =: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(76): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(75): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(743): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> Vector2D<T>::operator -(const T &)"
           with
           [
               T=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(72): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\Vector2D.h(71): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\MyMath.h(742): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> Vector2D<T>::operator +(const T &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(72): warning C4244: аргумент: преобразование "double" в "const float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\vector2d.h(71): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\mymath.h(742): note: выполняется компиляция ссылки на экземпляр шаблон функции "const Vector2D<T> Vector2D<T>::operator +(const T &)"
           with
           [
               T=float32
           ]
-d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(251): warning C4244: return: преобразование "float64" в "float32", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(242): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(148): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 SidesFunction<float32>::coincidenceCondition(void)"
-  d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(73): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(144): note: выполняется компиляция ссылки на экземпляр шаблон функции "SidesFunction<float32>::SidesFunction(BezierCurve<float32> &,BoundaryConditions<float32> &)"
-d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(269): warning C4244: return: преобразование "float64" в "float32", возможна потеря данных
-  d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(261): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(148): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 SidesFunction<float32>::tangentCondition(void)"
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\xmemory0(856): warning C4244: инициализация: преобразование "const double" в "float", возможна потеря данных
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\vector(958): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,const double&>(_Alloc &,_Objty *const ,const double &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(251): warning C4244: return: преобразование "float64" в "float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(242): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(148): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 SidesFunction<float32>::coincidenceCondition(void)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(73): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(144): note: выполняется компиляция ссылки на экземпляр шаблон функции "SidesFunction<float32>::SidesFunction(BezierCurve<float32> &,BoundaryConditions<float32> &)"
+d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(269): warning C4244: return: преобразование "float64" в "float32", возможна потеря данных
+  d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(261): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(148): note: выполняется компиляция ссылки на экземпляр шаблон функции "float32 SidesFunction<float32>::tangentCondition(void)"
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.13.26128\include\xmemory0(919): warning C4244: инициализация: преобразование "const double" в "float", возможна потеря данных
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.13.26128\include\vector(968): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,const double&>(_Alloc &,_Objty *const ,const double &)"
           with
           [
               _Alloc=std::allocator<float32>,
               _Ty=float,
               _Objty=float
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\vector(958): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,const double&>(_Alloc &,_Objty *const ,const double &)"
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.13.26128\include\vector(968): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,const double&>(_Alloc &,_Objty *const ,const double &)"
           with
           [
               _Alloc=std::allocator<float32>,
               _Ty=float,
               _Objty=float
           ]
-  d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(145): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::vector<T,std::allocator<_Ty>>::emplace_back<const double&>(const double &)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(145): note: выполняется компиляция ссылки на экземпляр шаблон функции "void std::vector<T,std::allocator<_Ty>>::emplace_back<const double&>(const double &)"
           with
           [
               T=float32,
               _Ty=float32
           ]
-  d:\work roman\lofi_codes\curvesmath\curvesmath\SidesFunction.h(140): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
-  CurvesMath.cpp(155): note: выполняется компиляция ссылки на экземпляр шаблон функции "double SidesFunction<float32>::value(const Eigen::Matrix<double,-1,1,0,-1,1> &)"
+  d:\work roman\lofi_codes\curvesmath\curvesmath\sidesfunction.h(140): note: при компиляции функции-члена "<Нет данных>" класса класс <Нет данных>
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(155): note: выполняется компиляция ссылки на экземпляр шаблон функции "double SidesFunction<float32>::value(const Eigen::Matrix<double,-1,1,0,-1,1> &)"
   Создание кода
-  2 of 1866 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+d:\work roman\lofi_codes\curvesmath\curvesmath\beziercurve.h(61): warning C4715: BezierCurve<float>::fact: значение возвращается не при всех путях выполнения
+  All 1874 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Создание кода завершено
   CurvesMath.vcxproj -> D:\Work Roman\lofi_codes\CurvesMath\Release\CurvesMath.exe

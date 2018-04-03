@@ -1,11 +1,41 @@
-﻿  CurvesMath.cpp
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(27): warning C4305: аргумент: усечение из "double" в "float32"
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(29): warning C4305: аргумент: усечение из "double" в "float32"
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(82): warning C4305: инициализация: усечение из "double" в "float32"
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(118): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(125): error C2653: plt: не является именем класса или пространства имен
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(125): error C3861: plot: идентификатор не найден
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(126): error C2653: plt: не является именем класса или пространства имен
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(126): error C3861: show: идентификатор не найден
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(134): error C2065: TEMP: необъявленный идентификатор
-d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(140): error C2065: TEMP: необъявленный идентификатор
+﻿  stdafx.cpp
+  Circle.cpp
+d:\work roman\lofi_codes\curvesmath\curvesmath\setups.h(37): warning C4305: инициализация: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\setups.h(37): warning C4305: инициализация: усечение из "double" в "float32"
+  CurvesMath.cpp
+d:\work roman\lofi_codes\curvesmath\curvesmath\setups.h(37): warning C4305: инициализация: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\setups.h(37): warning C4305: инициализация: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(26): warning C4244: аргумент: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(27): warning C4244: аргумент: преобразование "double" в "float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(45): warning C4305: аргумент: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(97): warning C4305: аргумент: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(98): warning C4305: аргумент: усечение из "double" в "const float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(109): warning C4305: аргумент: усечение из "double" в "float32"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(114): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(115): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(118): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(119): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(128): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(132): warning C4244: аргумент: преобразование "float64" в "const float32", возможна потеря данных
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(145): error C2065: BfgsSolver: необъявленный идентификатор
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(145): error C2275: SidesFunction<float32>: недопустимое использование этого типа в качестве выражения
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(144): note:  см. объявление "SidesFunction<float32>"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(145): error C2065: sSolver: необъявленный идентификатор
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(148): error C2065: stopCriteria: необъявленный идентификатор
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(148): error C2228: выражение слева от ".iterations" должно представлять класс, структуру или объединение
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(148): note: тип: unknown-type
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(149): error C2065: stopCriteria: необъявленный идентификатор
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(149): error C2228: выражение слева от ".fDelta" должно представлять класс, структуру или объединение
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(149): note: тип: unknown-type
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(150): error C2065: stopCriteria: необъявленный идентификатор
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(150): error C2228: выражение слева от ".reset" должно представлять класс, структуру или объединение
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(150): note: тип: unknown-type
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(151): error C2065: sSolver: необъявленный идентификатор
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(151): error C2228: выражение слева от ".setStopCriteria" должно представлять класс, структуру или объединение
+  d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(151): note: тип: unknown-type
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(151): error C2065: stopCriteria: необъявленный идентификатор
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(152): error C2065: VectorXd: необъявленный идентификатор
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(152): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "xx"
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(152): error C3861: xx: идентификатор не найден
+d:\work roman\lofi_codes\curvesmath\curvesmath\curvesmath.cpp(152): error C2065: xx: необъявленный идентификатор
+  Создание кода...

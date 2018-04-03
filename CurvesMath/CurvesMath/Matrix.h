@@ -106,7 +106,7 @@ inline Matrix<T>::Matrix()
 {
 	data.reserve(m*n);
 	for (size_t i = 0; i < m; i++)
-	{
+	{vector<T>
 		for (size_t j = 0; j < n; j++)
 		{
 			data.emplace_back(0.0);
